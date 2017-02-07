@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views
+END
+404.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views/404.jsp
+END
+login.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views/login.jsp
+END
+index.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views/index.jsp
+END
+kicked_out.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views/kicked_out.jsp
+END
+unauthorized.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views/unauthorized.jsp
+END
+500.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/views/500.jsp
+END

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.WorkingHoursMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.WorkingHours" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="DAMAGE_PARTS_GROUP" property="damage_parts_group" jdbcType="VARCHAR" />
+    <result column="DAMAGE_POSITION" property="damage_position" jdbcType="VARCHAR" />
+    <result column="DAMAGE_PARTS" property="damage_parts" jdbcType="VARCHAR" />
+    <result column="REPAIRTYPE" property="repairtype" jdbcType="VARCHAR" />
+    <result column="REPAIRMETHOD" property="repairmethod" jdbcType="VARCHAR" />
+     <result column="TASKPROJECT" property="taskproject" jdbcType="VARCHAR" />
+     <result column="REPAIRLEVEL" property="repairlevel" jdbcType="VARCHAR" />
+    <result column="PRICERANGE" property="pricerange" jdbcType="VARCHAR" />
+    <result column="HOURS" property="hours" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="BIGINT" />
+   <result column="STATUS" property="status" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DAMAGE_PARTS_GROUP, DAMAGE_POSITION, DAMAGE_PARTS,REPAIRTYPE,REPAIRMETHOD,TASKPROJECT,REPAIRLEVEL,PRICERANGE,HOURS,PRICE,STATUS
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (REPAIRTYPE  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        REPAIRMETHOD like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        TASKPROJECT like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+    
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_BASIC_WORKING_HOURS where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_BASIC_WORKING_HOURS where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BASIC_WORKING_HOURS
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_BASIC_WORKING_HOURS
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.WorkingHours" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_BASIC_WORKING_HOURS_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_BASIC_WORKING_HOURS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="damage_parts_group != null" >
+        DAMAGE_PARTS_GROUP,
+      </if>
+      <if test="damage_position != null" >
+        DAMAGE_POSITION,
+      </if>
+      <if test="damage_parts != null" >
+        DAMAGE_PARTS,
+      </if>
+      <if test="repairtype != null" >
+        REPAIRTYPE,
+      </if>
+       <if test="repairmethod != null" >
+        REPAIRMETHOD,
+      </if>
+      <if test="taskproject != null" >
+        TASKPROJECT,
+      </if>
+      <if test="repairlevel != null" >
+        REPAIRLEVEL,
+      </if>
+         <if test="pricerange != null" >
+        PRICERANGE,
+      </if>
+        <if test="hours != null" >
+        HOURS,
+      </if>
+       <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="damage_parts_group != null" >
+        #{damage_parts_group,jdbcType=VARCHAR},
+      </if>
+      <if test="damage_position != null" >
+        #{damage_position,jdbcType=VARCHAR},
+      </if>
+       <if test="damage_parts != null" >
+        #{damage_parts,jdbcType=VARCHAR},
+      </if>
+        <if test="repairtype != null" >
+        #{repairtype,jdbcType=VARCHAR},
+      </if>
+      <if test="repairmethod != null" >
+        #{repairmethod,jdbcType=VARCHAR},
+      </if>
+       <if test="taskproject != null" >
+        #{taskproject,jdbcType=VARCHAR},
+      </if>
+        <if test="repairlevel != null" >
+        #{repairlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="pricerange != null" >
+        #{pricerange,jdbcType=BIGINT},
+      </if>
+       <if test="hours != null" >
+        #{hours,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.WorkingHours" >
+    update T_BASIC_WORKING_HOURS
+    <set >
+     <if test="damage_parts_group != null" >
+        damage_parts_group=#{damage_parts_group,jdbcType=VARCHAR},
+      </if>
+      <if test="damage_position != null" >
+        damage_position=#{damage_position,jdbcType=VARCHAR},
+      </if>
+       <if test="damage_parts != null" >
+       damage_parts=#{damage_parts,jdbcType=VARCHAR},
+      </if>
+        <if test="repairtype != null" >
+       repairtype= #{repairtype,jdbcType=VARCHAR},
+      </if>
+      <if test="repairmethod != null" >
+      repairmethod=  #{repairmethod,jdbcType=VARCHAR},
+      </if>
+       <if test="taskproject != null" >
+        taskproject=#{taskproject,jdbcType=VARCHAR},
+      </if>
+        <if test="repairlevel != null" >
+       repairlevel= #{repairlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="pricerange != null" >
+       pricerange= #{pricerange,jdbcType=BIGINT},
+      </if>
+       <if test="hours != null" >
+        hours=#{hours,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price=#{price,jdbcType=BIGINT},
+      </if>
+   
+      <if test="status != null" >
+        status=#{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_BASIC_WORKING_HOURS set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

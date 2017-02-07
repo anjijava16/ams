@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.DictMapper" >
+  	<sql id="Base_Data_List" >
+    	id, dict_code, data_key, data_value
+	</sql>
+  <!-- 查询数据字典数据 -->
+  <select id="findAllData" resultType="com.mit.dict.bo.DictData">
+	select <include refid="Base_Data_List" />from t_dict_data
+  </select>
+</mapper>

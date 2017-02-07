@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.Role" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, type,content
+  </sql>
+  
+   <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+  	<where>
+  	<if test="findContent != null and findContent !='' " >
+         and (name  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        content like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+       <if test="findType != null and findType !='' " >
+	       and type='1'
+      </if>
+      </where>
+  </sql>
+  
+  
+  <select id="findRoleByUserId" resultType="java.lang.String">
+  		select r.name from t_role r,t_user_role ur where ur.rid = r.id and ur.userid = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 普通的分页查询 -->
+  <select id="findAll" resultMap="BaseResultMap" >
+    <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from t_role 
+    <include refid="where_all"/>
+     <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  t_role
+  	<include refid="where_all" />
+  </select>
+  
+  <!-- 权限分配的分页查询 -->
+  <select id="findRoleAndPermission" resultType="com.mit.permission.bo.RolePermissionAllocationBo">  
+  select r.id,r.type,r.name,permissionNames,permissionIds,content  from t_role r left join (select rid, wmsys.wm_concat(to_char(p.name)) permissionNames, wmsys.wm_concat(to_char(p.id))permissionIds from t_role_permission rp left join t_permission p on p.id=rp.pid group by rp.rid) pr on pr.rid=r.id 
+	<where>
+		<if test="findContent != null and findContent !='' " >
+	         and (name  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        content like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+      <if test="findType != null and findType !='' " >
+	       and type='1'
+      </if>
+	</where>
+  </select>
+  
+  <!-- Mybatis 一对多 Demo  begin -->
+  
+  <!-- 查询用户全部的role & permission -->
+  <resultMap id="findNowAllPermission_resultMap" extends="BaseResultMap" type="com.mit.common.model.Role" >
+  	<collection property="permissions" javaType="com.mit.common.model.Permission">
+  	 	<id column="pid" property="id" jdbcType="BIGINT" />
+    	<result column="pname" property="name" jdbcType="VARCHAR" />
+    	<result column="url" property="url" jdbcType="VARCHAR" />
+  	</collection>
+  </resultMap>
+  <!-- 根据用户ID，查询所有权限 -->
+  <select id="findNowAllPermission" resultMap="findNowAllPermission_resultMap">
+	select ur.id,ur.name,ur.type ,up.id pid,up.url,up.name pname 
+		from (select rid from t_user_role where uid = #{userId,jdbcType=BIGINT}) uur 
+		left join t_role ur on uur.rid = ur.id
+		left join t_role_permission urp on urp.rid = ur.id
+		left join t_permission up on up.id = urp.pid
+  </select>
+   <!-- Mybatis 一对多 Demo  end -->
+   
+   
+   
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert"  parameterType="com.mit.common.model.Role" >
+    	<selectKey keyProperty="id" resultType="java.lang.Integer"
+			order="BEFORE">
+		<![CDATA[select SEQ_ROLE_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into t_role (id, name, type
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.Role" >
+  	<selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_ROLE_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+       <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+       <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.Role" >
+    update t_role
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mit.common.model.Role" >
+    update t_role
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

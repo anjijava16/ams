@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.CenterInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.CenterInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="C_NAME" property="c_name" jdbcType="VARCHAR" />
+    <result column="C_SHORTER_NAME" property="c_shorter_name" jdbcType="VARCHAR" />
+    <result column="C_LINKMAN" property="c_linkman" jdbcType="VARCHAR" />
+    <result column="C_ZIP" property="c_zip" jdbcType="VARCHAR" />
+    <result column="C_TEL" property="c_tel" jdbcType="VARCHAR" />
+    <result column="C_FAX" property="c_fax" jdbcType="VARCHAR" />
+    <result column="C_PROV" property="c_prov" jdbcType="VARCHAR" />
+    <result column="C_CITY" property="c_city" jdbcType="VARCHAR" />
+    <result column="C_ZONE" property="c_zone" jdbcType="VARCHAR" />
+    <result column="C_ADDRESS" property="c_address" jdbcType="VARCHAR" />
+    <result column="C_BANK_DEPOSIT" property="c_bank_deposit" jdbcType="VARCHAR" />
+    <result column="C_ACCOUNT" property="c_account" jdbcType="VARCHAR" />
+    <result column="C_REMARKS" property="c_remarks" jdbcType="VARCHAR" />
+    <result column="C_ADDTIME" property="c_addtime" jdbcType="TIMESTAMP" />
+    <result column="C_OPERATOR" property="c_operator" jdbcType="VARCHAR" />
+    <result column="C_UPDATETIME" property="c_updatetime" jdbcType="TIMESTAMP" />
+     <result column="STATUS" property="status" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, C_NAME, C_SHORTER_NAME, C_LINKMAN, C_ZIP, C_TEL, C_FAX, C_PROV, C_CITY, C_ZONE, 
+    C_ADDRESS, C_BANK_DEPOSIT, C_ACCOUNT, C_REMARKS, C_ADDTIME, C_OPERATOR, C_UPDATETIME,STATUS
+  </sql>
+   <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (c_name  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        c_shorter_name like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        c_prov like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        c_city like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        c_zone like '%'||#{findContent,jdbcType=VARCHAR}||'%')  
+      </if>
+     <if test="findCenterId != null and findCenterId !='' " >
+         and id =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+  </sql>
+    <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_CENTER_INFO where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_CENTER_INFO where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  
+    select 
+    <include refid="Base_Column_List" />
+    from T_CENTER_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_CENTER_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.mit.common.model.CenterInfo">
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_CENTER_INFO_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_CENTER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+   
+        ID,
+     
+      <if test="c_name != null" >
+        C_NAME,
+      </if>
+      <if test="c_shorter_name != null" >
+        C_SHORTER_NAME,
+      </if>
+      <if test="c_linkman != null" >
+        C_LINKMAN,
+      </if>
+      <if test="c_zip != null" >
+        C_ZIP,
+      </if>
+      <if test="c_tel != null" >
+        C_TEL,
+      </if>
+      <if test="c_fax != null" >
+        C_FAX,
+      </if>
+      <if test="c_prov != null" >
+        C_PROV,
+      </if>
+      <if test="c_city != null" >
+        C_CITY,
+      </if>
+      <if test="c_zone != null" >
+        C_ZONE,
+      </if>
+      <if test="c_address != null" >
+        C_ADDRESS,
+      </if>
+      <if test="c_bank_deposit != null" >
+        C_BANK_DEPOSIT,
+      </if>
+      <if test="c_account != null" >
+        C_ACCOUNT,
+      </if>
+      <if test="c_remarks != null" >
+        C_REMARKS,
+      </if>
+      <if test="c_addtime != null" >
+        C_ADDTIME,
+      </if>
+      <if test="c_operator != null" >
+        C_OPERATOR,
+      </if>
+      <if test="c_updatetime != null" >
+        C_UPDATETIME,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+        #{id,jdbcType=BIGINT},
+    
+      <if test="c_name != null" >
+        #{c_name,jdbcType=VARCHAR},
+      </if>
+      <if test="c_shorter_name != null" >
+        #{c_shorter_name,jdbcType=VARCHAR},
+      </if>
+      <if test="c_linkman != null" >
+        #{c_linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="c_zip != null" >
+        #{c_zip,jdbcType=VARCHAR},
+      </if>
+      <if test="c_tel != null" >
+        #{c_tel,jdbcType=VARCHAR},
+      </if>
+      <if test="c_fax != null" >
+        #{c_fax,jdbcType=VARCHAR},
+      </if>
+      <if test="c_prov != null" >
+        #{c_prov,jdbcType=VARCHAR},
+      </if>
+      <if test="c_city != null" >
+        #{c_city,jdbcType=VARCHAR},
+      </if>
+      <if test="c_zone != null" >
+        #{c_zone,jdbcType=VARCHAR},
+      </if>
+      <if test="c_address != null" >
+        #{c_address,jdbcType=VARCHAR},
+      </if>
+      <if test="c_bank_deposit != null" >
+        #{c_bank_deposit,jdbcType=VARCHAR},
+      </if>
+      <if test="c_account != null" >
+        #{c_account,jdbcType=VARCHAR},
+      </if>
+      <if test="c_remarks != null" >
+        #{c_remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="c_addtime != null" >
+        #{c_addtime,jdbcType=DATE},
+      </if>
+      <if test="c_operator != null" >
+        #{c_operator,jdbcType=VARCHAR},
+      </if>
+      <if test="c_updatetime != null" >
+        #{c_updatetime,jdbcType=DATE},
+      </if>
+       <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.CenterInfo" >
+ 
+    update T_CENTER_INFO
+    <set >
+      <if test="c_name != null" >
+        C_NAME = #{c_name,jdbcType=VARCHAR},
+      </if>
+      <if test="c_shorter_name != null" >
+        C_SHORTER_NAME = #{c_shorter_name,jdbcType=VARCHAR},
+      </if>
+      <if test="c_linkman != null" >
+        C_LINKMAN = #{c_linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="c_zip != null" >
+        C_ZIP = #{c_zip,jdbcType=VARCHAR},
+      </if>
+      <if test="c_tel != null" >
+        C_TEL = #{c_tel,jdbcType=VARCHAR},
+      </if>
+      <if test="c_fax != null" >
+        C_FAX = #{c_fax,jdbcType=VARCHAR},
+      </if>
+      <if test="c_prov != null" >
+        C_PROV = #{c_prov,jdbcType=VARCHAR},
+      </if>
+      <if test="c_city != null" >
+        C_CITY = #{c_city,jdbcType=VARCHAR},
+      </if>
+      <if test="c_zone != null" >
+        C_ZONE = #{c_zone,jdbcType=VARCHAR},
+      </if>
+      <if test="c_address != null" >
+        C_ADDRESS = #{c_address,jdbcType=VARCHAR},
+      </if>
+      <if test="c_bank_deposit != null" >
+        C_BANK_DEPOSIT = #{c_bank_deposit,jdbcType=VARCHAR},
+      </if>
+      <if test="c_account != null" >
+        C_ACCOUNT = #{c_account,jdbcType=VARCHAR},
+      </if>
+      <if test="c_remarks != null" >
+        C_REMARKS = #{c_remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="c_addtime != null" >
+        C_ADDTIME = #{c_addtime,jdbcType=DATE},
+      </if>
+      <if test="c_operator != null" >
+        C_OPERATOR = #{c_operator,jdbcType=VARCHAR},
+      </if>
+      <if test="c_updatetime != null" >
+        C_UPDATETIME = sysdate,
+      </if>
+       <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+ <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_CENTER_INFO set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

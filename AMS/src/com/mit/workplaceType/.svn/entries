@@ -1,0 +1,34 @@
+10
+
+dir
+17949
+https://192.168.206.157:8443/svn/IIC_TechCode/AMS/trunk/src/com/mit/workplaceType
+https://192.168.206.157:8443/svn/IIC_TechCode
+
+
+
+2016-11-01T06:56:51.437500Z
+16834
+yejianming
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+edf7ce25-f394-6f45-8323-b124f1427ca5
+
+controller
+dir
+
+service
+dir
+

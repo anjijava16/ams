@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer
+END
+list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/list.jsp
+END
+menu.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/menu.jsp
+END
+addLinkman.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/addLinkman.jsp
+END
+add.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/add.jsp
+END
+listLinkman.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/listLinkman.jsp
+END
+addCar.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/addCar.jsp
+END
+listCar.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/customer/listCar.jsp
+END

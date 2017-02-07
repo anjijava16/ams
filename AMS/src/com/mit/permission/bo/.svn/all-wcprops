@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/bo
+END
+UserRoleAllocationBo.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/bo/UserRoleAllocationBo.java
+END
+PermissionBo.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/bo/PermissionBo.java
+END
+RoleBo.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/bo/RoleBo.java
+END
+RolePermissionAllocationBo.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/bo/RolePermissionAllocationBo.java
+END

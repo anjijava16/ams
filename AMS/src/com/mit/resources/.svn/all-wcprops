@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources
+END
+shiro-config.properties
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/shiro-config.properties
+END
+spring-mvc.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/spring-mvc.xml
+END
+mybatis-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/mybatis-config.xml
+END
+spring.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/spring.xml
+END
+jdbc.properties
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/jdbc.properties
+END
+log4j.properties
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/log4j.properties
+END
+spring-shiro.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/spring-shiro.xml
+END
+spring-cache.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/spring-cache.xml
+END
+spring-mybatis.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/spring-mybatis.xml
+END
+spring-timer.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/spring-timer.xml
+END
+shiro_base_auth.ini
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/shiro_base_auth.ini
+END
+config.properties
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/resources/config.properties
+END

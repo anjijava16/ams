@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.User" >
+  <result column="ID" property="id" jdbcType="BIGINT" />
+		<result column="USERNAME" property="username" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="TRUE_NAME" property="trueName" jdbcType="VARCHAR" />
+		<result column="ADDTIME" property="addtime" jdbcType="TIMESTAMP" />
+		<result column="LAST_LOGIN_TIME" property="lastLoginTime"
+			jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="BIGINT" />
+		<result column="LOGINNUM" property="loginnum" jdbcType="BIGINT" />
+		<result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+		<result column="C_NAME" property="c_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   	ID, USERNAME, PASSWORD, TRUE_NAME, ADDTIME, LAST_LOGIN_TIME, STATUS,
+		LOGINNUM,CENTERID
+  </sql>
+   <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  <sql id="where_all">
+  
+  	<if test="findContent != null and findContent !='' " >
+     and (username  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        true_name like '%'||#{findContent,jdbcType=VARCHAR}||'%' or c_name like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+      <if test="findCenterId != null and findCenterId !='' " >
+         and a.CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+     
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select   a.ID, USERNAME, PASSWORD, TRUE_NAME, ADDTIME, LAST_LOGIN_TIME,a.STATUS,
+    LOGINNUM,CENTERID,C_NAME from t_user a left join t_center_info b on a.centerid=b.id where a.STATUS='1'
+    <include refid="where_all"/> 
+      order by id desc
+      <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  t_user a where STATUS=1 
+  	<include refid="where_all" />
+  </select> 
+  
+  <!-- 用户权限分配的分页查询 -->
+  <select id="findUserAndRole" resultType="com.mit.permission.bo.UserRoleAllocationBo">
+  SELECT u.id,u.username,to_char(u.true_name)true_name,u.addtime,u.last_login_time,u.status,u.last_login_time,roleNames,roleIds from t_user u left join (SELECT userid,wmsys.wm_concat(to_char(r.name)) roleNames, wmsys.wm_concat(r.id)roleIds from  t_user_role ur  left join t_role r on r.id=ur.rid  group by ur.userid) ri on ri.userid=u.id
+	where u.status='1' 
+  	<if test="findContent != null and findContent !='' " >
+       and (username  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        true_name like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+       <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+  </select>
+  <!-- 根据用户编号查询用户角色信息，同时展示所有信息 -->
+  <select id="selectRoleByUserId" resultType="com.mit.permission.bo.RoleBo">
+    select r.id,r.name,r.type,r.content,nvl(uu.id,0) marker,uu.id userid from t_role r left join (select id,rid from ((select id from t_user where id=#{id,jdbcType=BIGINT}) u left join t_user_role ur on u.id=ur.userid )  )uu on uu.rid=r.id
+   <if test="type != null and type !='' " >
+        where type='1'
+      </if>
+  </select>
+  
+  <!-- 登录 -->
+  <select id="login" resultMap="BaseResultMap" >
+  	 select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where username = #{username,jdbcType=VARCHAR} and  password = #{password,jdbcType=VARCHAR} 
+  </select>
+  <!-- 根据用户名查账号 -->
+  <select id="findUserByName" resultMap="BaseResultMap" >
+  	 select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where username = #{username,jdbcType=VARCHAR} 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.User" >
+  	<selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_USER_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    
+        id,
+    
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="trueName != null" >
+        true_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+        <if test="centerid != null" >
+        CENTERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    
+        #{id,jdbcType=BIGINT},
+    
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+       <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.User" >
+    update t_user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        true_name = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="loginnum != null" >
+        loginnum = #{loginnum,jdbcType=BIGINT},
+      </if>
+      
+        centerid = #{centerid,jdbcType=BIGINT},
+     
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mit.common.model.User" >
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      true_name = #{trueName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=BIGINT},
+      loginnum = #{loginnum,jdbcType=BIGINT},centerid = #{centerid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

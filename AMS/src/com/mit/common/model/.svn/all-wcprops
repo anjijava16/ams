@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model
+END
+WorkplaceType.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/WorkplaceType.java
+END
+Permission.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Permission.java
+END
+Employee.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Employee.java
+END
+CarParts.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/CarParts.java
+END
+User.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/User.java
+END
+WorkingType.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/WorkingType.java
+END
+ViewEquipment.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/ViewEquipment.java
+END
+RolePermission.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/RolePermission.java
+END
+CenterInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/CenterInfo.java
+END
+EmployeeRest.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/EmployeeRest.java
+END
+UserRole.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/UserRole.java
+END
+Stations.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Stations.java
+END
+WorkingHours.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/WorkingHours.java
+END
+EmployeeWplace.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/EmployeeWplace.java
+END
+Profession.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Profession.java
+END
+Role.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Role.java
+END
+ViewWplace.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/ViewWplace.java
+END
+CarModel.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/CarModel.java
+END
+Station.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Station.java
+END
+Department.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/model/Department.java
+END

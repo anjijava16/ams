@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.Employee">
+	<id column="ID" property="id" jdbcType="BIGINT" />
+	<result column="E_NAME" property="e_name" jdbcType="VARCHAR" />
+	<result column="E_ID_TYPE" property="e_id_type" jdbcType="VARCHAR" />
+	<result column="E_ID_NUM" property="e_id_num" jdbcType="VARCHAR" />
+	<result column="E_BIRTH" property="e_birth" jdbcType="VARCHAR" />
+	<result column="E_SEX" property="e_sex" jdbcType="VARCHAR" />
+	<result column="E_MARRY" property="e_marry" jdbcType="VARCHAR" />
+	<result column="E_TEL" property="e_tel" jdbcType="VARCHAR" />
+	<result column="E_EDUCATE" property="e_educate" jdbcType="VARCHAR" />
+	<result column="E_POLITICAL" property="e_political" jdbcType="VARCHAR" />
+	<result column="E_ENTRY_TIME" property="e_entry_time" jdbcType="VARCHAR" />
+	<result column="E_LEAVE_TIME" property="e_leave_time" jdbcType="VARCHAR" />
+	<result column="E_ADDTIME" property="e_addtime" jdbcType="TIMESTAMP" />
+	<result column="E_REMARKS" property="e_remarks" jdbcType="VARCHAR" />
+	<result column="S_ID" property="s_id" jdbcType="BIGINT" />
+	<result column="D_ID" property="d_id" jdbcType="BIGINT" />
+	<result column="P_ID" property="p_id" jdbcType="BIGINT" />
+	<result column="SEQ" property="seq" jdbcType="BIGINT" />
+	<result column="STATUS" property="status" jdbcType="BIGINT" />
+	<result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+	<result column="D_NAME" property="d_name" jdbcType="VARCHAR" />
+	<result column="P_NAME" property="p_name" jdbcType="VARCHAR" />
+	<result column="S_NAME" property="s_name" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,E_NAME,E_ID_TYPE,E_ID_NUM,E_BIRTH,E_SEX,E_MARRY,E_TEL,E_EDUCATE,E_POLITICAL,E_ENTRY_TIME,E_LEAVE_TIME,E_REMARKS,E_ADDTIME,S_ID,D_ID,P_ID,SEQ ,STATUS,CENTERID
+  </sql>
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and e_name  like '%'||#{findContent,jdbcType=VARCHAR}||'%' 
+      </if>
+     <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+      <if test="findEmployeeId != null and findEmployeeId !='' " >
+         and E_ID =#{findEmployeeId,jdbcType=VARCHAR} 
+      </if>
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />,(SELECT S_NAME FROM T_STATIONS WHERE ID=S_ID) S_NAME,(SELECT P_NAME  FROM T_PROFESSION WHERE ID=P_ID) P_NAME,(SELECT D_NAME FROM T_DEPARTMENT WHERE ID=D_ID) D_NAME
+    from T_EMPLOYEE where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from T_EMPLOYEE where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_EMPLOYEE
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_EMPLOYEE
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.Employee" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_EMPLOYEE_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_EMPLOYEE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+
+      <if test="e_name != null" >
+        E_NAME,
+      </if>
+      <if test="e_id_type != null" >
+        E_ID_TYPE,
+      </if>
+      <if test="e_id_num != null" >
+        E_ID_NUM,
+      </if>
+      <if test="e_birth != null" >
+        E_BIRTH,
+      </if>
+       <if test="e_sex != null" >
+        E_SEX,
+      </if>
+       <if test="e_marry != null" >
+        E_MARRY,
+      </if>
+       <if test="e_tel != null" >
+        E_TEL,
+      </if>
+       <if test="e_educate != null" >
+        E_EDUCATE,
+      </if>
+       <if test="e_political != null" >
+        E_POLITICAL,
+      </if>
+       <if test="e_entry_time != null" >
+        E_ENTRY_TIME,
+      </if>
+       <if test="e_leave_time != null" >
+        E_LEAVE_TIME,
+      </if>
+       <if test="e_remarks != null" >
+        E_REMARKS,
+      </if>
+       <if test="s_id != null" >
+        S_ID,
+      </if>
+      <if test="d_id != null" >
+        D_ID,
+      </if>
+      <if test="p_id != null" >
+        P_ID,
+      </if>
+       <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="e_name != null" >
+        #{e_name,jdbcType=VARCHAR},
+      </if>
+      <if test="e_id_type != null" >
+        #{e_id_type,jdbcType=VARCHAR},
+      </if>
+     <if test="e_id_num != null" >
+        #{e_id_num,jdbcType=BIGINT},
+      </if>
+      <if test="e_birth != null" >
+        #{e_birth,jdbcType=VARCHAR},
+      </if>
+       <if test="e_sex != null" >
+        #{e_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="e_marry != null" >
+        #{e_marry,jdbcType=VARCHAR},
+      </if>
+     <if test="e_tel != null" >
+        #{e_tel,jdbcType=BIGINT},
+      </if>
+      <if test="e_educate != null" >
+        #{e_educate,jdbcType=VARCHAR},
+      </if>
+        <if test="e_political != null" >
+        #{e_political,jdbcType=VARCHAR},
+      </if>
+        <if test="e_entry_time != null" >
+        #{e_entry_time,jdbcType=VARCHAR},
+      </if>
+        <if test="e_leave_time != null" >
+        #{e_leave_time,jdbcType=VARCHAR},
+      </if>
+        <if test="e_remarks != null" >
+        #{e_remarks,jdbcType=VARCHAR},
+      </if>
+       <if test="s_id != null" >
+        #{s_id,jdbcType=BIGINT},
+      </if>
+       <if test="d_id != null" >
+        #{d_id,jdbcType=BIGINT},
+      </if>
+       <if test="p_id != null" >
+        #{p_id,jdbcType=BIGINT},
+      </if>
+       <if test="seq != null" >
+        #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.Employee" >
+    update T_EMPLOYEE
+    <set >
+     <if test="e_name != null" >
+      e_name=  #{e_name,jdbcType=VARCHAR},
+      </if>
+      <if test="e_id_type != null" >
+      e_id_type=  #{e_id_type,jdbcType=VARCHAR},
+      </if>
+     <if test="e_id_num != null" >
+      e_id_num=  #{e_id_num,jdbcType=BIGINT},
+      </if>
+      <if test="e_birth != null" >
+       e_birth= #{e_birth,jdbcType=VARCHAR},
+      </if>
+       <if test="e_sex != null" >
+       e_sex= #{e_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="e_marry != null" >
+      e_marry=  #{e_marry,jdbcType=VARCHAR},
+      </if>
+     <if test="e_tel != null" >
+      e_tel=  #{e_tel,jdbcType=BIGINT},
+      </if>
+      <if test="e_educate != null" >
+      e_educate=  #{e_educate,jdbcType=VARCHAR},
+      </if>
+        <if test="e_political != null" >
+      e_political=  #{e_political,jdbcType=VARCHAR},
+      </if>
+        <if test="e_entry_time != null" >
+     e_entry_time=   #{e_entry_time,jdbcType=VARCHAR},
+      </if>
+        <if test="e_leave_time != null" >
+       e_leave_time= #{e_leave_time,jdbcType=VARCHAR},
+      </if>
+        <if test="e_remarks != null" >
+       e_remarks= #{e_remarks,jdbcType=VARCHAR},
+      </if>
+       <if test="s_id != null" >
+       s_id= #{s_id,jdbcType=BIGINT},
+      </if>
+       <if test="d_id != null" >
+       d_id= #{d_id,jdbcType=BIGINT},
+      </if>
+       <if test="p_id != null" >
+       p_id= #{p_id,jdbcType=BIGINT},
+      </if>
+       <if test="seq != null" >
+       seq= #{seq,jdbcType=BIGINT},
+      </if>
+     
+      <if test="centerid != null" >
+      centerid=  #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+     status=   #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_EMPLOYEE set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 人员调班 -->
+   <resultMap id="RestResultMap" type="com.mit.common.model.EmployeeRest">
+	<id column="ID" property="id" jdbcType="BIGINT" />
+	<result column="E_ID" property="e_id" jdbcType="BIGINT" />
+	<result column="E_MAME" property="e_name" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="BIGINT" />
+	<result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+	<result column="E_START_TIME" property="e_start_time" jdbcType="VARCHAR" />
+	<result column="E_END_TIME" property="e_end_time" jdbcType="VARCHAR" />
+	<result column="ADDTIME" property="addtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <sql id="Rest_Column_List" >
+    ID,E_ID,E_NAME,STATUS,CENTERID,E_START_TIME,E_END_TIME,ADDTIME
+  </sql>
+   <select id="findRestAll" resultMap="RestResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Rest_Column_List" />
+    from T_EMPLOYEE_REST where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findRestCount" resultMap="RestResultMap" >
+ 	 select count(id) from T_EMPLOYEE_REST where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+  <insert id="insertRest"  parameterType="com.mit.common.model.EmployeeRest" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_EMPLOYEE_REST_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_EMPLOYEE_REST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+    <if test="e_id != null" >
+        E_ID,
+      </if>
+      <if test="e_name != null" >
+        E_NAME,
+      </if>
+       <if test="e_start_time != null" >
+        E_START_TIME,
+      </if>
+       <if test="e_end_time != null" >
+        E_END_TIME,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+         <if test="e_id != null" >
+        #{e_id,jdbcType=BIGINT},
+      </if>
+      <if test="e_name != null" >
+        #{e_name,jdbcType=VARCHAR},
+      </if>
+        <if test="e_start_time != null" >
+        #{e_start_time,jdbcType=VARCHAR},
+      </if>
+        <if test="e_end_time != null" >
+        #{e_end_time,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+   <update id="updateRestStatusById" parameterType="java.lang.Long">
+    update T_EMPLOYEE_REST set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

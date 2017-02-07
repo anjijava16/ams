@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo
+END
+UploadInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/UploadInfo.java
+END
+Order.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/Order.java
+END
+Ask.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/Ask.java
+END
+Review.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/Review.java
+END
+Question.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/Question.java
+END
+OrderAdd.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/OrderAdd.java
+END
+OrderParts.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/OrderParts.java
+END
+OrderItem.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/order/bo/OrderItem.java
+END

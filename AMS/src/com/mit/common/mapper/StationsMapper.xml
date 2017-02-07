@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.StationsMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.Stations" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="S_NAME" property="s_name" jdbcType="VARCHAR" />
+    <result column="S_CODE" property="s_code" jdbcType="VARCHAR" />
+    <result column="S_SUMMARY" property="s_summary" jdbcType="VARCHAR" />
+     <result column="SEQ" property="seq" jdbcType="BIGINT" />
+    <result column="STATUS" property="status" jdbcType="BIGINT" />
+     <result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, S_NAME, S_CODE,S_SUMMARY,SEQ,STATUS,CENTERID
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (s_name  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        s_summary like '%'||#{findContent,jdbcType=VARCHAR}||'%'  or
+        s_code like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+     <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_STATIONS where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from T_STATIONS where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_STATIONS
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_STATIONS
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.Stations" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_STATIONS_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_STATIONS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="s_name != null" >
+        S_NAME,
+      </if>
+      <if test="s_code != null" >
+        S_CODE,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="s_summary != null" >
+        S_SUMMARY,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="s_name != null" >
+        #{s_name,jdbcType=VARCHAR},
+      </if>
+      <if test="s_code != null" >
+        #{s_code,jdbcType=VARCHAR},
+      </if>
+     <if test="seq != null" >
+        #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="s_summary != null" >
+        #{s_summary,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.Stations" >
+    update T_STATIONS
+    <set >
+     <if test="s_name != null" >
+       s_name= #{s_name,jdbcType=VARCHAR},
+      </if>
+      <if test="s_code != null" >
+      s_code=  #{s_code,jdbcType=VARCHAR},
+      </if>
+     <if test="seq != null" >
+      seq=  #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="s_summary != null" >
+      s_summary=  #{s_summary,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+      centerid=  #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+     status=   #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_STATIONS set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

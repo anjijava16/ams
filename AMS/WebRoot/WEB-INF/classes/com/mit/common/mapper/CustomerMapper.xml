@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.CustomerMapper">
+	<sql id="Base_Customer_List">
+		id, cus_name, sex, id_type, id_num, id_addr, tel, phone,
+		prov, city,
+		zone, zip_code, email,
+		cont_addr, birth, nation, bak,
+		del_flag, creat_time, creator, creator_id
+	</sql>
+	<sql id="Base_Car_List">
+		id, brand, car_seri, car_type, outer_color, inner_color,
+		vin, engine_num,
+		cer_num, key_num,
+		year, ori_place, creat_date,
+		out_fa_date, use_type, spare_num, fir_date,
+		serv_type, mileages,
+		car_price, car_plates, seller, cus_id, bak, del_flag
+	</sql>
+	<sql id="Base_Linkman_List" >
+    ID, LINK_NAME, LINK_TEL, RELATION, LINK_IDTYPE, LINK_IDNUM, LINK_PROV, LINK_CITY, 
+    LINK_ZONE, LINK_ADDR, LINK_ZIP, LINK_SEX, LINK_BIRTH, LINK_NATION, FREE_TIME, CUS_ID, 
+    BAK, DEL_FLAG
+  </sql>
+	<sql id="OracleDialectPrefix">
+		<if test="firstRow != null">
+			select * from ( select row_.*, rownum rownum_ from (
+		</if>
+	</sql>
+	<sql id="OracleDialectSuffix">
+		<if test="firstRow != null">
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+		</if>
+	</sql>
+	<sql id="where_all">
+		<where>
+			del_flag = 0 and centerid = #{centerid}
+			<if test="findContent != null and findContent !='' ">
+				and (cus_name like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				id_num like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				tel like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%'
+				)
+			</if>
+		</where>
+	</sql>
+	<sql id="where_all_cars">
+		<where>
+			c1.del_flag = 0 and c2.del_flag = 0 and c1.centerid = #{centerid}
+			and c1.id = c2.cus_id
+			<if test="findContent != null and findContent !='' ">
+				and (car_plates like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				cus_name like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				car_seri like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				car_type like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				brand like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%'
+				)
+			</if>
+		</where>
+	</sql>
+	<sql id="where_all_linkman">
+		<where>
+			del_flag = 0 and centerid = #{centerid}
+			<if test="cus_id != null and cus_id !='' ">
+			and CUS_ID = #{cus_id,jdbcType=VARCHAR}
+			</if>
+			<if test="findContent != null and findContent !='' ">
+				and (LINK_NAME like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				LINK_TEL like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or 
+				link_idnum like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' 
+				)
+			</if>
+		</where>
+	</sql>
+	<select id="findAll" resultType="com.mit.customer.bo.Customer">
+		<include refid="OracleDialectPrefix" />
+		select
+		<include refid="Base_Customer_List" />
+		from t_customer
+		<include refid="where_all" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+	<select id="findAllCustomers" resultType="com.mit.customer.bo.Customer">
+		select
+		<include refid="Base_Customer_List" />
+		from t_customer
+		<include refid="where_all" />
+		order by id desc
+	</select>
+
+	<select id="findCount" resultType="java.lang.Integer">
+		select count(id) from t_customer
+		<include refid="where_all" />
+	</select>
+
+	<!-- 插入客户信息 -->
+	<insert id="insertSelective" parameterType="com.mit.customer.bo.Customer">
+		insert into t_customer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cus_name != null and cus_name !='' ">
+				cus_name,
+			</if>
+			<if test="sex != null and sex !='' ">
+				sex,
+			</if>
+			<if test="id_type != null and id_type !='' ">
+				id_type,
+			</if>
+			<if test="id_num != null and id_num !='' ">
+				id_num,
+			</if>
+			<if test="id_addr != null and id_addr !='' ">
+				id_addr,
+			</if>
+			<if test="tel != null and tel !='' ">
+				tel,
+			</if>
+			<if test="phone != null and phone !='' ">
+				phone,
+			</if>
+			<if test="prov != null and prov !='' ">
+				prov,
+			</if>
+			<if test="city != null and city !='' ">
+				city,
+			</if>
+			<if test="zone != null and zone !='' ">
+				zone,
+			</if>
+			<if test="zip_code != null and zip_code !='' ">
+				zip_code,
+			</if>
+			<if test="email != null and email !='' ">
+				email,
+			</if>
+			<if test="cont_addr != null and cont_addr !='' ">
+				cont_addr,
+			</if>
+			<if test="birth != null and birth !='' ">
+				birth,
+			</if>
+			<if test="nation != null and nation !='' ">
+				nation,
+			</if>
+			<if test="bak != null and bak !='' ">
+				bak,
+			</if>
+			<if test="creator_id != null and creator_id !='' ">
+				creator_id,
+			</if>
+			<if test="creator != null and creator !='' ">
+				creator,
+			</if>
+			<if test="centerid != null and centerid !='' ">
+				centerid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cus_name != null and cus_name !='' ">
+				#{cus_name},
+			</if>
+			<if test="sex != null and sex !='' ">
+				#{sex},
+			</if>
+			<if test="id_type != null and id_type !='' ">
+				#{id_type},
+			</if>
+			<if test="id_num != null and id_num !='' ">
+				#{id_num},
+			</if>
+			<if test="id_addr != null and id_addr !='' ">
+				#{id_addr},
+			</if>
+			<if test="tel != null and tel !='' ">
+				#{tel},
+			</if>
+			<if test="phone != null and phone !='' ">
+				#{phone},
+			</if>
+			<if test="prov != null and prov !='' ">
+				#{prov},
+			</if>
+			<if test="city != null and city !='' ">
+				#{city},
+			</if>
+			<if test="zone != null and zone !='' ">
+				#{zone},
+			</if>
+			<if test="zip_code != null and zip_code !='' ">
+				#{zip_code},
+			</if>
+			<if test="email != null and email !='' ">
+				#{email},
+			</if>
+			<if test="cont_addr != null and cont_addr !='' ">
+				#{cont_addr},
+			</if>
+			<if test="birth != null and birth !='' ">
+				#{birth},
+			</if>
+			<if test="nation != null and nation !='' ">
+				#{nation},
+			</if>
+			<if test="bak != null and bak !='' ">
+				#{bak},
+			</if>
+			<if test="creator_id != null and creator_id !='' ">
+				#{creator_id},
+			</if>
+			<if test="creator != null and creator !='' ">
+				#{creator},
+			</if>
+			<if test="centerid != null and centerid !='' ">
+				#{centerid},
+			</if>
+		</trim>
+	</insert>
+	<select id="selectByPrimaryKey" resultType="com.mit.customer.bo.Customer">
+		select
+		<include refid="Base_Customer_List" />
+		from t_customer where id = #{id}
+	</select>
+	<select id="selectCarByPrimaryKey" resultType="com.mit.customer.bo.CarInfo">
+		select
+		<include refid="Base_Car_List" />
+		from t_car_info where id = #{id}
+	</select>
+	<select id="selectCarByCusId" resultType="com.mit.customer.bo.CarInfo">
+		select
+		<include refid="Base_Car_List" />
+		from t_car_info where cus_id = #{id} and del_flag = 0
+	</select>
+	<update id="updateBySelective" parameterType="com.mit.customer.bo.Customer">
+		update t_customer
+		<set>
+			<if test="cus_name != null and cus_name !='' ">
+				cus_name = #{cus_name},
+			</if>
+			<if test="sex != null and sex !='' ">
+				sex = #{sex},
+			</if>
+			<if test="id_type != null and id_type !='' ">
+				id_type = #{id_type},
+			</if>
+			<if test="id_num != null and id_num !='' ">
+				id_num = #{id_num},
+			</if>
+			<if test="id_addr != null and id_addr !='' ">
+				id_addr = #{id_addr},
+			</if>
+			<if test="tel != null and tel !='' ">
+				tel = #{tel},
+			</if>
+			<if test="phone != null and phone !='' ">
+				phone = #{phone},
+			</if>
+			<if test="prov != null and prov !='' ">
+				prov = #{prov},
+			</if>
+			<if test="city != null and city !='' ">
+				city = #{city},
+			</if>
+			<if test="zone != null and zone !='' ">
+				zone = #{zone},
+			</if>
+			<if test="zip_code != null and zip_code !='' ">
+				zip_code = #{zip_code},
+			</if>
+			<if test="email != null and email !='' ">
+				email = #{email},
+			</if>
+			<if test="cont_addr != null and cont_addr !='' ">
+				cont_addr = #{cont_addr},
+			</if>
+			<if test="birth != null and birth !='' ">
+				birth = #{birth},
+			</if>
+			<if test="nation != null and nation !='' ">
+				nation = #{nation},
+			</if>
+			<if test="bak != null and bak !='' ">
+				bak = #{bak},
+			</if>
+			<if test="del_flag != null and del_flag !='' ">
+				del_flag = #{del_flag},
+			</if>
+			<if test="centerid != null and centerid !='' ">
+				centerid = #{centerid},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findAllCars" resultType="com.mit.customer.bo.CarInfo">
+		<include refid="OracleDialectPrefix" />
+		select c1.cus_name,c2.id, c2.brand, c2.car_seri, c2.car_type,
+		c2.outer_color, c2.inner_color, c2.vin,
+		c2.engine_num, c2.cer_num,
+		c2.key_num, c2.year, c2.ori_place, c2.creat_date,
+		c2.out_fa_date, c2.use_type,
+		c2.spare_num, c2.fir_date, c2.serv_type, c2.mileages,
+		c2.car_price, c2.car_plates,
+		c2.seller, c2.cus_id, c2.bak, c2.del_flag
+		from t_customer c1, t_car_info c2
+		<include refid="where_all_cars" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+	
+	<select id="findCountCars" resultType="com.mit.customer.bo.CarInfo">
+		select count(*) from t_customer c1, t_car_info c2
+		<include refid="where_all_cars" />
+	</select>
+	
+	<insert id="insertSelectiveCar" parameterType="com.mit.customer.bo.CarInfo" >
+    insert into T_CAR_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brand != null" >
+        BRAND,
+      </if>
+      <if test="car_seri != null" >
+        CAR_SERI,
+      </if>
+      <if test="car_type != null" >
+        CAR_TYPE,
+      </if>
+      <if test="outer_color != null" >
+        OUTER_COLOR,
+      </if>
+      <if test="inner_color != null" >
+        INNER_COLOR,
+      </if>
+      <if test="vin != null" >
+        VIN,
+      </if>
+      <if test="engine_num != null" >
+        ENGINE_NUM,
+      </if>
+      <if test="cer_num != null" >
+        CER_NUM,
+      </if>
+      <if test="key_num != null" >
+        KEY_NUM,
+      </if>
+      <if test="year != null" >
+        YEAR,
+      </if>
+      <if test="ori_place != null" >
+        ORI_PLACE,
+      </if>
+      <if test="creat_date != null" >
+        CREAT_DATE,
+      </if>
+      <if test="out_fa_date != null" >
+        OUT_FA_DATE,
+      </if>
+      <if test="use_type != null" >
+        USE_TYPE,
+      </if>
+      <if test="spare_num != null" >
+        SPARE_NUM,
+      </if>
+      <if test="fir_date != null" >
+        FIR_DATE,
+      </if>
+      <if test="serv_type != null" >
+        SERV_TYPE,
+      </if>
+      <if test="mileages != null" >
+        MILEAGES,
+      </if>
+      <if test="car_price != null" >
+        CAR_PRICE,
+      </if>
+      <if test="car_plates != null" >
+        CAR_PLATES,
+      </if>
+      <if test="seller != null" >
+        SELLER,
+      </if>
+      <if test="cus_id != null" >
+        CUS_ID,
+      </if>
+      <if test="bak != null" >
+        BAK,
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG,
+      </if>
+      <if test="centerid != null" >
+        centerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brand != null" >
+        #{brand,jdbcType=OTHER},
+      </if>
+      <if test="car_seri != null" >
+        #{car_seri,jdbcType=OTHER},
+      </if>
+      <if test="car_type != null" >
+        #{car_type,jdbcType=OTHER},
+      </if>
+      <if test="outer_color != null" >
+        #{outer_color,jdbcType=OTHER},
+      </if>
+      <if test="inner_color != null" >
+        #{inner_color,jdbcType=OTHER},
+      </if>
+      <if test="vin != null" >
+        #{vin,jdbcType=OTHER},
+      </if>
+      <if test="engine_num != null" >
+        #{engine_num,jdbcType=OTHER},
+      </if>
+      <if test="cer_num != null" >
+        #{cer_num,jdbcType=OTHER},
+      </if>
+      <if test="key_num != null" >
+        #{key_num,jdbcType=OTHER},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=DATE},
+      </if>
+      <if test="ori_place != null" >
+        #{ori_place,jdbcType=OTHER},
+      </if>
+      <if test="creat_date != null" >
+        #{creat_date,jdbcType=DATE},
+      </if>
+      <if test="out_fa_date != null" >
+        #{out_fa_date,jdbcType=DATE},
+      </if>
+      <if test="use_type != null" >
+        #{use_type,jdbcType=CHAR},
+      </if>
+      <if test="spare_num != null" >
+        #{spare_num,jdbcType=OTHER},
+      </if>
+      <if test="fir_date != null" >
+        #{fir_date,jdbcType=DATE},
+      </if>
+      <if test="serv_type != null" >
+        #{serv_type,jdbcType=OTHER},
+      </if>
+      <if test="mileages != null" >
+        #{mileages,jdbcType=DECIMAL},
+      </if>
+      <if test="car_price != null" >
+        #{car_price,jdbcType=FLOAT},
+      </if>
+      <if test="car_plates != null" >
+        #{car_plates,jdbcType=OTHER},
+      </if>
+      <if test="seller != null" >
+        #{seller,jdbcType=OTHER},
+      </if>
+      <if test="cus_id != null" >
+        #{cus_id,jdbcType=DECIMAL},
+      </if>
+      <if test="bak != null" >
+        #{bak,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        #{del_flag,jdbcType=CHAR},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateSelectiveCar" parameterType="com.mit.customer.bo.CarInfo" >
+    update T_CAR_INFO
+    <set >
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=OTHER},
+      </if>
+      <if test="car_seri != null" >
+        CAR_SERI = #{car_seri,jdbcType=OTHER},
+      </if>
+      <if test="car_type != null" >
+        CAR_TYPE = #{car_type,jdbcType=OTHER},
+      </if>
+      <if test="outer_color != null" >
+        OUTER_COLOR = #{outer_color,jdbcType=OTHER},
+      </if>
+      <if test="inner_color != null" >
+        INNER_COLOR = #{inner_color,jdbcType=OTHER},
+      </if>
+      <if test="vin != null" >
+        VIN = #{vin,jdbcType=OTHER},
+      </if>
+      <if test="engine_num != null" >
+        ENGINE_NUM = #{engine_num,jdbcType=OTHER},
+      </if>
+      <if test="cer_num != null" >
+        CER_NUM = #{cer_num,jdbcType=OTHER},
+      </if>
+      <if test="key_num != null" >
+        KEY_NUM = #{key_num,jdbcType=OTHER},
+      </if>
+      <if test="year != null" >
+        YEAR = #{year,jdbcType=DATE},
+      </if>
+      <if test="ori_place != null" >
+        ORI_PLACE = #{ori_place,jdbcType=OTHER},
+      </if>
+      <if test="creat_date != null" >
+        CREAT_DATE = #{creat_date,jdbcType=DATE},
+      </if>
+      <if test="out_fa_date != null" >
+        OUT_FA_DATE = #{out_fa_date,jdbcType=DATE},
+      </if>
+      <if test="use_type != null" >
+        USE_TYPE = #{use_type,jdbcType=CHAR},
+      </if>
+      <if test="spare_num != null" >
+        SPARE_NUM = #{spare_num,jdbcType=OTHER},
+      </if>
+      <if test="fir_date != null" >
+        FIR_DATE = #{fir_date,jdbcType=DATE},
+      </if>
+      <if test="serv_type != null" >
+        SERV_TYPE = #{serv_type,jdbcType=OTHER},
+      </if>
+      <if test="mileages != null" >
+        MILEAGES = #{mileages,jdbcType=DECIMAL},
+      </if>
+      <if test="car_price != null" >
+        CAR_PRICE = #{car_price,jdbcType=FLOAT},
+      </if>
+      <if test="car_plates != null" >
+        CAR_PLATES = #{car_plates,jdbcType=OTHER},
+      </if>
+      <if test="seller != null" >
+        SELLER = #{seller,jdbcType=OTHER},
+      </if>
+      <if test="cus_id != null" >
+        CUS_ID = #{cus_id,jdbcType=DECIMAL},
+      </if>
+      <if test="bak != null" >
+        BAK = #{bak,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG = #{del_flag,jdbcType=CHAR},
+      </if>
+      <if test="centerid != null" >
+        centerid = #{centerid,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="id != null" >
+     where id = #{id}
+    </if>
+  </update>
+  
+  <update id="delCarByCus" parameterType="com.mit.customer.bo.CarInfo">
+  	update T_CAR_INFO set DEL_FLAG = 1 where cus_id = #{cus_id}
+  </update>
+  
+  <update id="delLinkByCus" parameterType="com.mit.customer.bo.Linkman">
+  	update T_LINKMAN set DEL_FLAG = 1 where cus_id = #{cus_id}
+  </update>
+  
+  <select id="findAllLinkmen" resultType="com.mit.customer.bo.Linkman" >
+   <include refid="OracleDialectPrefix" />
+		select
+		<include refid="Base_Linkman_List" />
+		from t_linkman
+		<include refid="where_all_linkman" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCountLinkmen" resultType="com.mit.customer.bo.Linkman">
+		select count(id) from t_linkman
+		<include refid="where_all_linkman" />
+	</select>
+	
+	<insert id="insertSelectiveLinkman" parameterType="com.mit.customer.bo.Linkman" >
+    insert into T_LINKMAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="link_name != null" >
+        LINK_NAME,
+      </if>
+      <if test="link_tel != null" >
+        LINK_TEL,
+      </if>
+      <if test="relation != null" >
+        RELATION,
+      </if>
+      <if test="link_idtype != null" >
+        LINK_IDTYPE,
+      </if>
+      <if test="link_idnum != null" >
+        LINK_IDNUM,
+      </if>
+      <if test="link_prov != null" >
+        LINK_PROV,
+      </if>
+      <if test="link_city != null" >
+        LINK_CITY,
+      </if>
+      <if test="link_zone != null" >
+        LINK_ZONE,
+      </if>
+      <if test="link_addr != null" >
+        LINK_ADDR,
+      </if>
+      <if test="link_zip != null" >
+        LINK_ZIP,
+      </if>
+      <if test="link_sex != null" >
+        LINK_SEX,
+      </if>
+      <if test="link_birth != null" >
+        LINK_BIRTH,
+      </if>
+      <if test="link_nation != null" >
+        LINK_NATION,
+      </if>
+      <if test="free_time != null" >
+        FREE_TIME,
+      </if>
+      <if test="cus_id != null" >
+        CUS_ID,
+      </if>
+      <if test="bak != null" >
+        BAK,
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG,
+      </if>
+      <if test="centerid != null" >
+        centerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="link_name != null" >
+        #{link_name,jdbcType=OTHER},
+      </if>
+      <if test="link_tel != null" >
+        #{link_tel,jdbcType=OTHER},
+      </if>
+      <if test="relation != null" >
+        #{relation,jdbcType=CHAR},
+      </if>
+      <if test="link_idtype != null" >
+        #{link_idtype,jdbcType=CHAR},
+      </if>
+      <if test="link_idnum != null" >
+        #{link_idnum,jdbcType=OTHER},
+      </if>
+      <if test="link_prov != null" >
+        #{link_prov,jdbcType=OTHER},
+      </if>
+      <if test="link_city != null" >
+        #{link_city,jdbcType=OTHER},
+      </if>
+      <if test="link_zone != null" >
+        #{link_zone,jdbcType=OTHER},
+      </if>
+      <if test="link_addr != null" >
+        #{link_addr,jdbcType=OTHER},
+      </if>
+      <if test="link_zip != null" >
+        #{link_zip,jdbcType=OTHER},
+      </if>
+      <if test="link_sex != null" >
+        #{link_sex,jdbcType=CHAR},
+      </if>
+      <if test="link_birth != null" >
+        #{link_birth,jdbcType=DATE},
+      </if>
+      <if test="link_nation != null" >
+        #{link_nation,jdbcType=OTHER},
+      </if>
+      <if test="free_time != null" >
+        #{free_time,jdbcType=OTHER},
+      </if>
+      <if test="cus_id != null" >
+        #{cus_id,jdbcType=DECIMAL},
+      </if>
+      <if test="bak != null" >
+        #{bak,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        #{del_flag,jdbcType=CHAR},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateSelectiveLinkman" parameterType="com.mit.customer.bo.Linkman" >
+    update T_LINKMAN
+    <set >
+      <if test="link_name != null" >
+        LINK_NAME = #{link_name,jdbcType=OTHER},
+      </if>
+      <if test="link_tel != null" >
+        LINK_TEL = #{link_tel,jdbcType=OTHER},
+      </if>
+      <if test="relation != null" >
+        RELATION = #{relation,jdbcType=CHAR},
+      </if>
+      <if test="link_idtype != null" >
+        LINK_IDTYPE = #{link_idtype,jdbcType=CHAR},
+      </if>
+      <if test="link_idnum != null" >
+        LINK_IDNUM = #{link_idnum,jdbcType=OTHER},
+      </if>
+      <if test="link_prov != null" >
+        LINK_PROV = #{link_prov,jdbcType=OTHER},
+      </if>
+      <if test="link_city != null" >
+        LINK_CITY = #{link_city,jdbcType=OTHER},
+      </if>
+      <if test="link_zone != null" >
+        LINK_ZONE = #{link_zone,jdbcType=OTHER},
+      </if>
+      <if test="link_addr != null" >
+        LINK_ADDR = #{link_addr,jdbcType=OTHER},
+      </if>
+      <if test="link_zip != null" >
+        LINK_ZIP = #{link_zip,jdbcType=OTHER},
+      </if>
+      <if test="link_sex != null" >
+        LINK_SEX = #{link_sex,jdbcType=CHAR},
+      </if>
+      <if test="link_birth != null" >
+        LINK_BIRTH = #{link_birth,jdbcType=DATE},
+      </if>
+      <if test="link_nation != null" >
+        LINK_NATION = #{link_nation,jdbcType=OTHER},
+      </if>
+      <if test="free_time != null" >
+        FREE_TIME = #{free_time,jdbcType=OTHER},
+      </if>
+      <if test="cus_id != null" >
+        CUS_ID = #{cus_id,jdbcType=DECIMAL},
+      </if>
+      <if test="bak != null" >
+        BAK = #{bak,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG = #{del_flag,jdbcType=CHAR},
+      </if>
+      <if test="centerid != null" >
+        centerid = #{centerid,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectLinkmanByPrimaryKey" resultType="com.mit.customer.bo.Linkman">
+		select
+		<include refid="Base_Linkman_List" />
+		from t_linkman where id = #{id} and del_flag = 0
+	</select>
+	<select id="selectLinkmanByCusId" resultType="com.mit.customer.bo.Linkman">
+		select
+		<include refid="Base_Linkman_List" />
+		from t_linkman where cus_id = #{id} and del_flag = 0
+	</select>
+</mapper>

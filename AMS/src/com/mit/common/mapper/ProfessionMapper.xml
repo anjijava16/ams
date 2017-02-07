@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.ProfessionMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.Profession" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="P_NAME" property="p_name" jdbcType="VARCHAR" />
+    <result column="P_CODE" property="p_code" jdbcType="VARCHAR" />
+    <result column="P_TYPE" property="p_type" jdbcType="VARCHAR" />
+     <result column="P_LEVEL" property="p_level" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="BIGINT" />
+     <result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, P_NAME, P_CODE,P_TYPE,P_LEVEL,STATUS,CENTERID
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (p_name  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        p_code like '%'||#{findContent,jdbcType=VARCHAR}||'%'  or
+        p_type like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        p_level like '%'||#{findContent,jdbcType=VARCHAR}||'%')  
+      </if>
+     <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_PROFESSION where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from T_PROFESSION where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PROFESSION
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_PROFESSION
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.Profession" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_PROFESSION_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_PROFESSION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="p_name != null" >
+        P_NAME,
+      </if>
+      <if test="p_code != null" >
+        P_CODE,
+      </if>
+      <if test="p_type != null" >
+        P_TYPE,
+      </if>
+      <if test="p_level != null" >
+        P_LEVEL,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="p_name != null" >
+        #{p_name,jdbcType=VARCHAR},
+      </if>
+      <if test="p_code != null" >
+        #{p_code,jdbcType=VARCHAR},
+      </if>
+     <if test="p_type != null" >
+        #{p_type,jdbcType=BIGINT},
+      </if>
+      <if test="p_level != null" >
+        #{p_level,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.Profession" >
+    update T_PROFESSION
+    <set >
+     <if test="p_name != null" >
+       p_name= #{p_name,jdbcType=VARCHAR},
+      </if>
+      <if test="p_code != null" >
+      p_code=  #{p_code,jdbcType=VARCHAR},
+      </if>
+     <if test="p_type != null" >
+      p_type=  #{p_type,jdbcType=BIGINT},
+      </if>
+      <if test="p_level != null" >
+      p_level=  #{p_level,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+      centerid=  #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+     status=   #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_PROFESSION set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

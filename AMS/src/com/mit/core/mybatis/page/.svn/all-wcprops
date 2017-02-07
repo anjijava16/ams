@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page
+END
+Pagination.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page/Pagination.java
+END
+OracleDialect.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page/OracleDialect.java
+END
+Dialect.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page/Dialect.java
+END
+Paginable.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page/Paginable.java
+END
+MysqlDialect.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page/MysqlDialect.java
+END
+SimplePage.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/mybatis/page/SimplePage.java
+END

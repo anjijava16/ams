@@ -1,0 +1,161 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao
+END
+PermissionMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/PermissionMapper.java
+END
+OrderMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/OrderMapper.java
+END
+EmployeeMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/EmployeeMapper.java
+END
+CarPartsMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/CarPartsMapper.java
+END
+UserMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/UserMapper.java
+END
+WorkingTypeMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/WorkingTypeMapper.java
+END
+ViewEquipmentMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/ViewEquipmentMapper.java
+END
+SCarModelMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/SCarModelMapper.java
+END
+RolePermissionMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/RolePermissionMapper.java
+END
+StatisticsMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/StatisticsMapper.java
+END
+CenterInfoMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/CenterInfoMapper.java
+END
+UserRoleMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/UserRoleMapper.java
+END
+SCarPartsMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/SCarPartsMapper.java
+END
+StationsMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/StationsMapper.java
+END
+CustomerMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/CustomerMapper.java
+END
+WorkingHoursMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/WorkingHoursMapper.java
+END
+SWorkplaceTypeMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/SWorkplaceTypeMapper.java
+END
+ProfessionMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/ProfessionMapper.java
+END
+ReviewMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/ReviewMapper.java
+END
+RoleMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/RoleMapper.java
+END
+DictMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/DictMapper.java
+END
+CarModelMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/CarModelMapper.java
+END
+StationMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/StationMapper.java
+END
+DepartmentMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/DepartmentMapper.java
+END
+SWorkingHoursMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/SWorkingHoursMapper.java
+END
+WorkplaceTypeMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/dao/WorkplaceTypeMapper.java
+END

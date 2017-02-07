@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode
+END
+Randoms.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/Randoms.java
+END
+SpecCaptcha.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/SpecCaptcha.java
+END
+Encoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/Encoder.java
+END
+Captcha.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/Captcha.java
+END
+GifEncoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/GifEncoder.java
+END
+GifCaptcha.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/GifCaptcha.java
+END
+Quant.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/vcode/Quant.java
+END

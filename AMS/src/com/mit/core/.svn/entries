@@ -1,0 +1,46 @@
+10
+
+dir
+17949
+https://192.168.206.157:8443/svn/IIC_TechCode/AMS/trunk/src/com/mit/core
+https://192.168.206.157:8443/svn/IIC_TechCode
+
+
+
+2017-01-05T05:54:27.125000Z
+17858
+yejianming
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+edf7ce25-f394-6f45-8323-b124f1427ca5
+
+config
+dir
+
+freemarker
+dir
+
+mybatis
+dir
+
+shiro
+dir
+
+statics
+dir
+
+tags
+dir
+

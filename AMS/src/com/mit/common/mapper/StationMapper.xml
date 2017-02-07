@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.StationMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.Station" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="workplace_type_id" property="workplace_type_id" jdbcType="BIGINT" />
+    <result column="W_NO" property="w_no" jdbcType="VARCHAR" />
+   <result column="STATUS" property="status" jdbcType="BIGINT" />
+    <result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+       <result column="W_NAME" property="w_name" jdbcType="VARCHAR" />
+        <result column="PLACE_PARENT_NAME" property="place_parent_name" jdbcType="VARCHAR" />
+    <result column="PLACE_NAME" property="place_name" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_ID" property="equipment_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, WORKPLACE_TYPE_ID, W_NO,STATUS,CENTERID,W_NAME,EQUIPMENT_ID
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (W_NAME  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        PLACE_NAME like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+    <if test="findCenterId != null and findCenterId !='' " >
+         and a.CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  select  a.ID, WORKPLACE_TYPE_ID, W_NO,a.STATUS,a.CENTERID,W_NAME,PLACE_PARENT_NAME,PLACE_NAME,EQUIPMENT_ID from t_workplace a left join T_WORKPLACE_TYPE b on a.workplace_type_id=b.id where a.STATUS='1'
+    <include refid="where_all"/>
+      order by a.id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_WORKPLACE a where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WORKPLACE
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_WORKPLACE
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.Station" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_WORKPLACE_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_WORKPLACE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="workplace_type_id != null" >
+        WORKPLACE_TYPE_ID,
+      </if>
+      <if test="w_no != null" >
+        W_NO,
+      </if>
+      
+      <if test="status != null" >
+        status,
+      </if>
+       <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="w_name != null" >
+        W_NAME,
+      </if>
+       <if test="equipment_id != null" >
+        EQUIPMENT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="workplace_type_id != null" >
+        #{workplace_type_id,jdbcType=BIGINT},
+      </if>
+      <if test="w_no != null" >
+        #{w_no,jdbcType=VARCHAR},
+      </if>
+     
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+       <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+       <if test="w_name != null" >
+        #{w_name,jdbcType=VARCHAR},
+      </if>
+       <if test="equipment_id != null" >
+        #{equipment_id,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.Station" >
+    update T_WORKPLACE
+    <set >
+     <if test="workplace_type_id != null" >
+        workplace_type_id=#{workplace_type_id,jdbcType=BIGINT},
+      </if>
+      <if test="w_no != null" >
+        w_no=#{w_no,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="status != null" >
+        status=#{status,jdbcType=BIGINT},
+      </if>
+       <if test="centerid != null" >
+        centerid=#{centerid,jdbcType=BIGINT},
+      </if>
+       <if test="w_name != null" >
+        w_name=#{w_name,jdbcType=VARCHAR},
+      </if>
+       <if test="equipment_id != null" >
+        equipment_id=#{equipment_id,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_WORKPLACE set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 增加工位与员工关联 -->
+  <resultMap id="EwplaceResultMap" type="com.mit.common.model.EmployeeWplace" >
+   <id column="ID" property="id" jdbcType="BIGINT" />
+	<result column="E_ID" property="e_id" jdbcType="BIGINT" />
+	<result column="E_NAME" property="e_name" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="BIGINT" />
+	<result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+   <result column="W_ID" property="w_id" jdbcType="BIGINT" />
+	<result column="W_NAME" property="w_name" jdbcType="VARCHAR" />
+	<result column="ADDTIME" property="addtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <sql id="Ewplace_Column_List" >
+    ID, E_ID,E_NAME,W_ID,STATUS,CENTERID,W_NAME,ADDTIME
+  </sql>
+   <sql id="Ewplace_where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (W_NAME  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        E_NAME like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+    <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+     
+       <if test="findStationId != null and findStationId !='' " >
+         and W_ID =#{findStationId,jdbcType=VARCHAR} 
+      </if>
+  </sql>
+    <select id="findEwplaceAll" resultMap="EwplaceResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Ewplace_Column_List" />
+    from T_EMPLOYEE_WPLACE where STATUS=1 
+    <include refid="Ewplace_where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findEwplaceCount" resultMap="EwplaceResultMap" >
+ 	 select count(id) from T_EMPLOYEE_WPLACE where STATUS=1 
+  	<include refid="Ewplace_where_all" />
+  </select>
+  <insert id="insertEwplace"  parameterType="com.mit.common.model.EmployeeWplace" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_EMPLOYEE_WPLACE_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_EMPLOYEE_WPLACE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+    <if test="e_id != null" >
+        E_ID,
+      </if>
+      <if test="e_name != null" >
+        E_NAME,
+      </if>
+       <if test="w_id != null" >
+        W_ID,
+      </if>
+       <if test="w_name != null" >
+        W_NAME,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+         <if test="e_id != null" >
+        #{e_id,jdbcType=BIGINT},
+      </if>
+      <if test="e_name != null" >
+        #{e_name,jdbcType=VARCHAR},
+      </if>
+         <if test="w_id != null" >
+        #{w_id,jdbcType=BIGINT},
+      </if>
+      <if test="w_name != null" >
+        #{w_name,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+   <update id="updateEwplaceStatusById" parameterType="java.lang.Long">
+    update T_EMPLOYEE_WPLACE set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>  
+</mapper>

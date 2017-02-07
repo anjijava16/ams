@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl
+END
+SCarModelServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/SCarModelServiceImpl.java
+END
+ViewEquipmentServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/ViewEquipmentServiceImpl.java
+END
+ProfessionServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/ProfessionServiceImpl.java
+END
+SWorkplaceTypeServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/SWorkplaceTypeServiceImpl.java
+END
+EmployeeServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/EmployeeServiceImpl.java
+END
+SCarPartsServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/SCarPartsServiceImpl.java
+END
+StationsServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/StationsServiceImpl.java
+END
+SWorkingHoursServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/SWorkingHoursServiceImpl.java
+END
+DepartmentServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/DepartmentServiceImpl.java
+END
+StationServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/information/service/impl/StationServiceImpl.java
+END

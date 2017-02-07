@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/controller
+END
+UserRoleAllocationController.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/controller/UserRoleAllocationController.java
+END
+PermissionAllocationController.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/controller/PermissionAllocationController.java
+END
+PermissionController.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/controller/PermissionController.java
+END
+RoleController.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/permission/controller/RoleController.java
+END

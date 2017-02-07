@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/information/parts
+END
+listCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/information/parts/listCarParts.jsp
+END
+listCarPartsRecord.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/information/parts/listCarPartsRecord.jsp
+END
+addCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/information/parts/addCarParts.jsp
+END
+inCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/information/parts/inCarParts.jsp
+END
+editCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/information/parts/editCarParts.jsp
+END

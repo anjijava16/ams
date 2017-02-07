@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/cache
+END
+ShiroCacheManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/cache/ShiroCacheManager.java
+END
+VCache.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/cache/VCache.java
+END
+JedisManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/cache/JedisManager.java
+END
+JedisShiroCache.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/cache/JedisShiroCache.java
+END
+JedisShiroSessionRepository.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/cache/JedisShiroSessionRepository.java
+END

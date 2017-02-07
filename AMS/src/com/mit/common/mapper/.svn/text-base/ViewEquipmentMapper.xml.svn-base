@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.ViewEquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.ViewEquipment" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VIEW_EQUIPMENT_ID" property="view_equipment_id" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="BIGINT" />
+    <result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+    <result column="VIEW_NAME" property="view_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VIEW_EQUIPMENT_ID, STATUS, CENTERID,VIEW_NAME
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (VIEW_EQUIPMENT_ID  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        VIEW_NAME like '%'||#{findContent,jdbcType=VARCHAR}||'%')  
+      </if>
+       <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+    
+  </sql>
+  <select id="findAll" resultType="com.mit.information.bo.ViewWplaceAllocationBo" >
+   <include refid="OracleDialectPrefix" />
+   select  v.id,v.view_name,v.view_equipment_id,stationNames,stationIds from t_view_equipment v left  join (select view_id, wmsys.wm_concat(to_char(w.w_name)) stationNames, wmsys.wm_concat(to_char(w.id))stationIds from T_VIEW_WPLACE vm left join t_workplace w on w.id=vm.WPLACE_ID group by vm.VIEW_ID) vmm on vmm.VIEW_ID=v.id where status=1
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_VIEW_EQUIPMENT where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_VIEW_EQUIPMENT
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_VIEW_EQUIPMENT
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.ViewEquipment" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_VIEW_EQUIPMENT_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_VIEW_EQUIPMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="view_equipment_id != null" >
+        VIEW_EQUIPMENT_ID,
+      </if>
+      <if test="view_name != null" >
+        VIEW_NAME,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="view_equipment_id != null" >
+        #{view_equipment_id,jdbcType=VARCHAR},
+      </if>
+      <if test="view_name != null" >
+        #{view_name,jdbcType=VARCHAR},
+      </if>
+        <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.ViewEquipment" >
+    update T_VIEW_EQUIPMENT
+    <set >
+      <if test="view_equipment_id != null" >
+        view_equipment_id = #{view_equipment_id,jdbcType=VARCHAR},
+      </if>
+      <if test="view_name != null" >
+        view_name = #{view_name,jdbcType=VARCHAR},
+      </if>
+      <if test="centerid != null" >
+        centerid = #{centerid,jdbcType=BIGINT},
+      </if>
+       <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_VIEW_EQUIPMENT set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <resultMap id="ContactResultMap" type="com.mit.common.model.ViewWplace" >
+    <result column="WPLACE_ID" property="wplace_id" jdbcType="BIGINT" />
+    <result column="VIEW_ID" property="view_id" jdbcType="BIGINT" />
+  </resultMap>
+   <sql id="Contact_Column_List" >
+    WPLACE_ID, VIEW_ID
+  </sql>
+   <!-- 根据工位ID查找 -->
+  <select id="findByWplaceid" resultMap="ContactResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from T_VIEW_WPLACE
+  	where WPLACE_ID =  #{id,jdbcType=BIGINT}
+  </select> 
+  <!-- 根据视频ID查找 -->
+  <select id="findByViewid" resultMap="ContactResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from T_VIEW_WPLACE
+  	where VIEW_ID =  #{id,jdbcType=BIGINT}
+  </select> 
+ 
+  <insert id="insertContact" parameterType="com.mit.common.model.ViewWplace" >
+    insert into T_VIEW_WPLACE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wplace_id != null" >
+        wplace_id,
+      </if>
+      <if test="view_id != null" >
+        view_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wplace_id != null" >
+        #{wplace_id,jdbcType=BIGINT},
+      </if>
+      <if test="view_id != null" >
+        #{view_id,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+   <select id="selectViewWplaceById" resultType="com.mit.information.bo.StationBo">
+  select p.id,pr.id viewId,p.w_name,nvl(pr.id,0) marker from t_workplace p left join (select id,wplace_id,centerid from (select id,centerid from t_view_equipment where id=#{id,jdbcType=BIGINT} and status=1 and centerid=#{centerid,jdbcType=BIGINT}) u left join t_view_wplace rp on u.id=rp.view_id) pr on pr.wplace_id=p.id where p.status=1 and p.centerid=#{centerid,jdbcType=BIGINT}
+  </select>
+    <!-- 根据设备ID删除-->
+  <delete id="deleteByViewId">
+  	delete from T_VIEW_WPLACE where VIEW_ID =  #{id,jdbcType=BIGINT}
+  </delete>
+</mapper>

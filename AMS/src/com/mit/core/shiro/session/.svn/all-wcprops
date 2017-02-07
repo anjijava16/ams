@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/session
+END
+ShiroSessionRepository.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/session/ShiroSessionRepository.java
+END
+SessionStatus.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/session/SessionStatus.java
+END
+CustomSessionManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/core/shiro/session/CustomSessionManager.java
+END

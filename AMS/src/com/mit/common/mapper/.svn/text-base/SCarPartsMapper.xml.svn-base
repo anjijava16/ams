@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.SCarPartsMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.CarParts" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="DAMAGE_PARTS_GROUP" property="damage_parts_group" jdbcType="VARCHAR" />
+    <result column="DAMAGE_POSITION" property="damage_position" jdbcType="VARCHAR" />
+    <result column="DAMAGE_PARTS" property="damage_parts" jdbcType="VARCHAR" />
+    <result column="PARTSNAME" property="partsname" jdbcType="VARCHAR" />
+    <result column="PARTSNUMBER" property="partsnumber" jdbcType="VARCHAR" />
+     <result column="FIRMSNUMBER" property="firmsnumber" jdbcType="VARCHAR" />
+     <result column="APPLYMODEL" property="applymodel" jdbcType="VARCHAR" />
+    <result column="PARTSPRICE" property="partsprice" jdbcType="BIGINT" />
+    <result column="PARTSTYPE" property="partstype" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+   <result column="STATUS" property="status" jdbcType="BIGINT" />
+   <result column="CENTERID" property="centerid" jdbcType="BIGINT" />
+   <result column="BASICID" property="basicid" jdbcType="BIGINT" />
+   <result column="STOCKNUM" property="stocknum" jdbcType="BIGINT" />
+   <result column="PURCHASEPRICE" property="purchaseprice" jdbcType="BIGINT" />
+      <result column="INOROUTDEPOT" property="inoroutdepot" jdbcType="VARCHAR" />
+   <result column="ADDTIME" property="addtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DAMAGE_PARTS_GROUP, DAMAGE_POSITION, DAMAGE_PARTS,PARTSNAME,PARTSNUMBER,FIRMSNUMBER,APPLYMODEL,PARTSPRICE,PARTSTYPE,REMARKS,STATUS,CENTERID,BASICID,STOCKNUM,PURCHASEPRICE
+  </sql>
+    <sql id="Record_Column_List" >
+  ID, DAMAGE_PARTS_GROUP, DAMAGE_POSITION, DAMAGE_PARTS,PARTSNAME,PARTSNUMBER,FIRMSNUMBER,APPLYMODEL,PARTSPRICE,PARTSTYPE,REMARKS,STATUS,CENTERID,BASICID,STOCKNUM,PURCHASEPRICE,INOROUTDEPOT,ADDTIME
+  </sql>
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (partsname  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        partsnumber like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        firmsnumber like '%'||#{findContent,jdbcType=VARCHAR}||'%' or
+        applymodel like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+       <if test="findCenterId != null and findCenterId !='' " >
+         and CENTERID =#{findCenterId,jdbcType=VARCHAR} 
+      </if>
+        <if test="findPartId != null and findPartId !='' " >
+         and PARTID =#{findPartId,jdbcType=VARCHAR} 
+      </if>
+    
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_CAR_PARTS where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_CAR_PARTS where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_CAR_PARTS
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_CAR_PARTS
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.CarParts" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_CAR_PARTS_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_CAR_PARTS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="damage_parts_group != null" >
+        DAMAGE_PARTS_GROUP,
+      </if>
+      <if test="damage_position != null" >
+        DAMAGE_POSITION,
+      </if>
+      <if test="damage_parts != null" >
+        DAMAGE_PARTS,
+      </if>
+      <if test="partsname != null" >
+        PARTSNAME,
+      </if>
+       <if test="partsnumber != null" >
+        PARTSNUMBER,
+      </if>
+      <if test="firmsnumber != null" >
+        FIRMSNUMBER,
+      </if>
+      <if test="applymodel != null" >
+        APPLYMODEL,
+      </if>
+         <if test="partsprice != null" >
+        PARTSPRICE,
+      </if>
+        <if test="partstype != null" >
+        PARTSTYPE,
+      </if>
+       <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="basicid != null" >
+        BASICID,
+      </if>
+      <if test="stocknum != null" >
+        STOCKNUM,
+      </if>
+      <if test="purchaseprice != null" >
+        PURCHASEPRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="damage_parts_group != null" >
+        #{damage_parts_group,jdbcType=VARCHAR},
+      </if>
+      <if test="damage_position != null" >
+        #{damage_position,jdbcType=VARCHAR},
+      </if>
+       <if test="damage_parts != null" >
+        #{damage_parts,jdbcType=VARCHAR},
+      </if>
+        <if test="partsname != null" >
+        #{partsname,jdbcType=VARCHAR},
+      </if>
+      <if test="partsnumber != null" >
+        #{partsnumber,jdbcType=VARCHAR},
+      </if>
+       <if test="firmsnumber != null" >
+        #{firmsnumber,jdbcType=VARCHAR},
+      </if>
+        <if test="applymodel != null" >
+        #{applymodel,jdbcType=VARCHAR},
+      </if>
+      <if test="partsprice != null" >
+        #{partsprice,jdbcType=BIGINT},
+      </if>
+       <if test="partstype != null" >
+        #{partstype,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+       <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+       <if test="basicid != null" >
+        #{basicid,jdbcType=BIGINT},
+      </if>
+       <if test="stocknum != null" >
+        #{stocknum,jdbcType=BIGINT},
+      </if>
+       <if test="purchaseprice != null" >
+        #{purchaseprice,jdbcType=BIGINT}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.CarParts" >
+    update T_CAR_PARTS
+    <set >
+     <if test="damage_parts_group != null" >
+        damage_parts_group=#{damage_parts_group,jdbcType=VARCHAR},
+      </if>
+      <if test="damage_position != null" >
+        damage_position=#{damage_position,jdbcType=VARCHAR},
+      </if>
+       <if test="damage_parts != null" >
+        damage_parts=#{damage_parts,jdbcType=VARCHAR},
+      </if>
+        <if test="partsname != null" >
+        partsname=#{partsname,jdbcType=VARCHAR},
+      </if>
+      <if test="partsnumber != null" >
+        partsnumber=#{partsnumber,jdbcType=VARCHAR},
+      </if>
+       <if test="firmsnumber != null" >
+        firmsnumber=#{firmsnumber,jdbcType=VARCHAR},
+      </if>
+        <if test="applymodel != null" >
+        applymodel=#{applymodel,jdbcType=VARCHAR},
+      </if>
+      <if test="partsprice != null" >
+        partsprice=#{partsprice,jdbcType=BIGINT},
+      </if>
+       <if test="partstype != null" >
+        partstype=#{partstype,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks=#{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status=#{status,jdbcType=BIGINT},
+      </if>
+       <if test="centerid != null" >
+        centerid=#{centerid,jdbcType=BIGINT},
+      </if>
+       <if test="basicid != null" >
+        basicid=#{basicid,jdbcType=BIGINT},
+      </if>
+       <if test="stocknum != null" >
+        stocknum=#{stocknum,jdbcType=BIGINT},
+      </if>
+       <if test="purchaseprice != null" >
+        purchaseprice=#{purchaseprice,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_CAR_PARTS set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="inCarPartsById" parameterType="com.mit.common.model.CarParts" >
+    update T_CAR_PARTS
+   <set >
+      <if test="partsprice != null" >
+        partsprice=#{partsprice,jdbcType=BIGINT},
+      </if>
+       <if test="stocknum != null" >
+        stocknum=stocknum+#{stocknum,jdbcType=BIGINT},
+      </if>
+       <if test="purchaseprice != null" >
+        purchaseprice=#{purchaseprice,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="outCarPartsById" parameterType="com.mit.common.model.CarParts" >
+    update T_CAR_PARTS
+   <set >
+       <if test="stocknum != null" >
+        stocknum=stocknum-#{stocknum,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <insert id="insertRecord"  parameterType="com.mit.common.model.CarParts" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_CAR_PARTS_RECORD_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_CAR_PARTS_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="damage_parts_group != null" >
+        DAMAGE_PARTS_GROUP,
+      </if>
+      <if test="damage_position != null" >
+        DAMAGE_POSITION,
+      </if>
+      <if test="damage_parts != null" >
+        DAMAGE_PARTS,
+      </if>
+      <if test="partsname != null" >
+        PARTSNAME,
+      </if>
+       <if test="partsnumber != null" >
+        PARTSNUMBER,
+      </if>
+      <if test="firmsnumber != null" >
+        FIRMSNUMBER,
+      </if>
+      <if test="applymodel != null" >
+        APPLYMODEL,
+      </if>
+         <if test="partsprice != null" >
+        PARTSPRICE,
+      </if>
+        <if test="partstype != null" >
+        PARTSTYPE,
+      </if>
+       <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="centerid != null" >
+        CENTERID,
+      </if>
+      <if test="basicid != null" >
+        BASICID,
+      </if>
+      <if test="stocknum != null" >
+        STOCKNUM,
+      </if>
+      <if test="purchaseprice != null" >
+        PURCHASEPRICE,
+      </if>
+      <if test="inoroutdepot != null" >
+        INOROUTDEPOT,
+      </if>
+       <if test="partid != null" >
+        partid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="damage_parts_group != null" >
+        #{damage_parts_group,jdbcType=VARCHAR},
+      </if>
+      <if test="damage_position != null" >
+        #{damage_position,jdbcType=VARCHAR},
+      </if>
+       <if test="damage_parts != null" >
+        #{damage_parts,jdbcType=VARCHAR},
+      </if>
+        <if test="partsname != null" >
+        #{partsname,jdbcType=VARCHAR},
+      </if>
+      <if test="partsnumber != null" >
+        #{partsnumber,jdbcType=VARCHAR},
+      </if>
+       <if test="firmsnumber != null" >
+        #{firmsnumber,jdbcType=VARCHAR},
+      </if>
+        <if test="applymodel != null" >
+        #{applymodel,jdbcType=VARCHAR},
+      </if>
+      <if test="partsprice != null" >
+        #{partsprice,jdbcType=BIGINT},
+      </if>
+       <if test="partstype != null" >
+        #{partstype,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+       <if test="centerid != null" >
+        #{centerid,jdbcType=BIGINT},
+      </if>
+       <if test="basicid != null" >
+        #{basicid,jdbcType=BIGINT},
+      </if>
+       <if test="stocknum != null" >
+        #{stocknum,jdbcType=BIGINT},
+      </if>
+       <if test="purchaseprice != null" >
+        #{purchaseprice,jdbcType=BIGINT},
+      </if>
+       <if test="inoroutdepot != null" >
+        #{inoroutdepot,jdbcType=BIGINT},
+      </if>
+       <if test="partid != null" >
+        #{partid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+   <select id="findAllRecord" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Record_Column_List" />
+    from T_CAR_PARTS_RECORD where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCountRecord" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_CAR_PARTS_RECORD where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+  
+  <!-- 工单查询备件 add by 刘鹏飞 -->
+  <select id="selectCarParts" resultMap="BaseResultMap" >
+ 	 select 
+    <include refid="Base_Column_List" />
+    from T_CAR_PARTS
+    <where>
+    status = 1
+       <if test="damage_parts_group != null and damage_parts_group !='' " >
+         and damage_parts_group =#{damage_parts_group,jdbcType=VARCHAR} 
+      </if>
+        <if test="damage_position != null and damage_position !='' " >
+         and damage_position =#{damage_position,jdbcType=VARCHAR} 
+      </if>
+        <if test="damage_parts != null and damage_parts !='' " >
+         and damage_parts =#{damage_parts,jdbcType=VARCHAR} 
+      </if>
+        <if test="partsname != null and partsname !='' " >
+         and partsname like '%'||#{partsname,jdbcType=VARCHAR}||'%'
+      </if>
+        <if test="partsnumber != null and partsnumber !='' " >
+         and partsnumber like '%'||#{partsnumber,jdbcType=VARCHAR}||'%'
+      </if>
+        <if test="firmsnumber != null and firmsnumber !='' " >
+         and firmsnumber like '%'||#{firmsnumber,jdbcType=VARCHAR}||'%'
+      </if>
+        <if test="applymodel != null and applymodel !='' " >
+         and applymodel =#{applymodel,jdbcType=VARCHAR} 
+      </if>
+        <if test="partstype != null and partstype !='' " >
+         and partstype =#{partstype,jdbcType=VARCHAR} 
+      </if>
+    </where>
+  </select>
+</mapper>

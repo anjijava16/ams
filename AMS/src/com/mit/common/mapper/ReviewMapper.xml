@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.ReviewMapper" >
+  <sql id="OracleDialectPrefix">
+		<if test="firstRow != null">
+			select * from ( select row_.*, rownum rownum_ from (
+		</if>
+	</sql>
+	<sql id="OracleDialectSuffix">
+		<if test="firstRow != null">
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+		</if>
+	</sql>
+	<sql id="where_all">
+		<where>
+			r.DEL_FLAG = 0 and c.DEL_FLAG = 0 and o.DEL_FLAG = 0
+			and l.DEL_FLAG = 0 and a.DEL_FLAG = 0 and ca.DEL_FLAG = 0
+			and c.centerid = #{centerid}
+			<if test="findContent != null and findContent !='' ">
+				and (c.cus_name like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				ca.car_plates like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				l.link_name like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%'
+				)
+			</if>
+		</where>
+	</sql>
+  <sql id="Base_Column_List" >
+    ID, CUS_ID, ORDER_ID, LINK_ID, ANS_ID, RVW_CON, RVW_TIME, SATI, NEXT_RVW, BAK, DEL_FLAG, 
+    ANSWER,CAR_ID,TEL,STATUS
+  </sql>
+  <select id="findAll" resultType="com.mit.order.bo.Review">
+		<include refid="OracleDialectPrefix" />
+		select c.cus_name,ca.car_plates,r.id,r.sati,
+		l.link_name,r.order_id,a.ask_name,r.tel,r.car_id
+		from T_REVIEW r
+		left join T_CUSTOMER c on r.cus_id = c.id
+		left join T_ORDER o on r.order_id = o.id
+		left join T_LINKMAN l on r.link_id = l.id
+		left join T_ASK a on r.ans_id = a.id
+		left join T_CAR_INFO ca on r.car_id = ca.id
+		<include refid="where_all" />
+		order by r.id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findCount" resultType="java.lang.Integer">
+		select count(o.id) from T_REVIEW r
+		left join T_CUSTOMER c on r.cus_id = c.id
+		left join T_ORDER o on r.order_id = o.id
+		left join T_LINKMAN l on r.link_id = l.id
+		left join T_ASK a on r.ans_id = a.id
+		left join T_CAR_INFO ca on r.car_id = ca.id
+		<include refid="where_all" />
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.Review">
+		select
+		<include refid="Base_Column_List" />
+		from T_REVIEW
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+  <insert id="insertSelective" parameterType="com.mit.order.bo.Review" >
+    insert into T_REVIEW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cus_id != null" >
+        CUS_ID,
+      </if>
+      <if test="order_id != null" >
+        ORDER_ID,
+      </if>
+      <if test="link_id != null" >
+        LINK_ID,
+      </if>
+      <if test="ans_id != null" >
+        ANS_ID,
+      </if>
+      <if test="rvw_con != null" >
+        RVW_CON,
+      </if>
+      <if test="rvw_time != null" >
+        RVW_TIME,
+      </if>
+      <if test="sati != null" >
+        SATI,
+      </if>
+      <if test="next_rvw != null" >
+        NEXT_RVW,
+      </if>
+      <if test="bak != null" >
+        BAK,
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG,
+      </if>
+      <if test="answer != null" >
+        ANSWER,
+      </if>
+      <if test="car_id != null" >
+        car_id,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cus_id != null" >
+        #{cus_id,jdbcType=DECIMAL},
+      </if>
+      <if test="order_id != null" >
+        #{order_id,jdbcType=DECIMAL},
+      </if>
+      <if test="link_id != null" >
+        #{link_id,jdbcType=DECIMAL},
+      </if>
+      <if test="ans_id != null" >
+        #{ans_id,jdbcType=DECIMAL},
+      </if>
+      <if test="rvw_con != null" >
+        #{rvw_con,jdbcType=OTHER},
+      </if>
+      <if test="rvw_time != null" >
+        #{rvw_time,jdbcType=DATE},
+      </if>
+      <if test="sati != null" >
+        #{sati,jdbcType=CHAR},
+      </if>
+      <if test="next_rvw != null" >
+        #{next_rvw,jdbcType=DATE},
+      </if>
+      <if test="bak != null" >
+        #{bak,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        #{del_flag,jdbcType=CHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=OTHER},
+      </if>
+      <if test="car_id != null" >
+        #{car_id,jdbcType=CHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="map" >
+    update T_REVIEW
+    <set >
+      <if test="cus_id != null" >
+        CUS_ID = #{cus_id,jdbcType=DECIMAL},
+      </if>
+      <if test="order_id != null" >
+        ORDER_ID = #{order_id,jdbcType=DECIMAL},
+      </if>
+      <if test="linkI_id != null" >
+        LINK_ID = #{link_id,jdbcType=DECIMAL},
+      </if>
+      <if test="ans_id != null" >
+        ANS_ID = #{ans_id,jdbcType=DECIMAL},
+      </if>
+      <if test="rvw_con != null" >
+        RVW_CON = #{rvw_con,jdbcType=OTHER},
+      </if>
+      <if test="rvw_time != null" >
+        RVW_TIME = #{rvw_time,jdbcType=DATE},
+      </if>
+      <if test="sati != null" >
+        SATI = #{sati,jdbcType=CHAR},
+      </if>
+      <if test="next_rvw != null" >
+        NEXT_RVW = #{next_rvw,jdbcType=DATE},
+      </if>
+      <if test="bak != null" >
+        BAK = #{bak,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG = #{del_flag,jdbcType=CHAR},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+     </set>
+    where id = #{id}
+  </update>
+  
+  <!-- Ask 操作相关  -->
+   <sql id="Base_Ask_List" >
+    ID, ASK_NAME, CENTER_ID, DEL_FLAG
+  </sql>
+  <sql id="where_ask_all">
+		<where>
+			DEL_FLAG = 0 and center_id = #{centerid}
+			<if test="findContent != null and findContent != ''">
+			and ask_name like '%'||#{findContent,jdbcType=VARCHAR}||'%'
+			</if>
+		</where>
+	</sql>
+  <select id="findAllAsk" resultType="com.mit.order.bo.Ask">
+		<include refid="OracleDialectPrefix" />
+		select <include refid="Base_Ask_List" />
+		from T_ASK
+		<include refid="where_ask_all" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findAskCount" resultType="java.lang.Integer">
+		select count(id) from T_ASK
+		<include refid="where_ask_all" />
+	</select>
+	
+	<insert id="insertAsk" parameterType="com.mit.order.bo.Ask" >
+    insert into T_ASK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ask_name != null" >
+        ASK_NAME,
+      </if>
+      <if test="center_id != null" >
+        CENTER_ID,
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ask_name != null" >
+        #{ask_name,jdbcType=OTHER},
+      </if>
+      <if test="center_id != null" >
+        #{center_id,jdbcType=DECIMAL},
+      </if>
+      <if test="del_flag != null" >
+        #{del_flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateAsk" parameterType="map" >
+    update T_ASK
+    <set >
+      <if test="ask_name != null" >
+        ASK_NAME = #{ask_name,jdbcType=OTHER},
+      </if>
+      <if test="center_id != null" >
+        CENTER_ID = #{center_id,jdbcType=DECIMAL},
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG = #{del_flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <select id="selectAsk" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.Ask">
+		select
+		<include refid="Base_Ask_List" />
+		from T_ASK
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+  <!-- Question 操作相关  -->
+   <sql id="Base_Question_List" >
+    ID, ASK_ID, QUES_NO, QUES_CONT, DEL_FLAG
+  </sql>
+  <sql id="where_question_all">
+		<where>
+			q.DEL_FLAG = 0 and a.del_flag = 0 and q.ask_id = a.id and a.center_id = #{centerid}
+			<if test="findContent != null and findContent !='' ">
+				and (a.ask_name like '%'||#{findContent,jdbcType=VARCHAR}||'%'
+				or q.ques_cont like '%'||#{findContent,jdbcType=VARCHAR}||'%')
+			</if>
+		</where>
+	</sql>
+  <select id="findAllQuestion" resultType="com.mit.order.bo.Question">
+		<include refid="OracleDialectPrefix" />
+		select q.ques_no,q.ques_cont,a.ASK_NAME,q.id
+		from T_QUESTION q, T_ASK a
+		<include refid="where_question_all" />
+		order by a.id,q.ques_no asc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findQuestionCount" resultType="java.lang.Integer">
+		select count(q.id) from T_QUESTION q, T_ASK a
+		<include refid="where_question_all" />
+	</select>
+	
+	<insert id="insertQuestion" parameterType="com.mit.order.bo.Question" >
+    insert into T_QUESTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ask_id != null" >
+        ASK_ID,
+      </if>
+      <if test="ques_no != null" >
+        QUES_NO,
+      </if>
+      <if test="ques_cont != null" >
+        QUES_CONT,
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ask_id != null" >
+        #{ask_id,jdbcType=DECIMAL},
+      </if>
+      <if test="ques_no != null" >
+        #{ques_no,jdbcType=DECIMAL},
+      </if>
+      <if test="ques_cont != null" >
+        #{ques_cont,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        #{del_flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateQuestion" parameterType="map" >
+    update T_QUESTION
+    <set >
+      <if test="ask_id != null" >
+        ASK_ID = #{ask_id,jdbcType=DECIMAL},
+      </if>
+      <if test="ques_no != null" >
+        QUES_NO = #{ques_no,jdbcType=DECIMAL},
+      </if>
+      <if test="ques_cont != null" >
+        QUES_CONT = #{ques_cont,jdbcType=OTHER},
+      </if>
+      <if test="del_flag != null" >
+        DEL_FLAG = #{del_flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateQuestionByAsk" parameterType="int">
+  	update t_question set del_flag = 1 where ask_id = #{askId}
+  </update>
+</mapper>

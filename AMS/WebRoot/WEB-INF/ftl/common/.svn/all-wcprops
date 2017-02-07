@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/ftl/common
+END
+kicked_out.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/ftl/common/kicked_out.ftl
+END
+unauthorized.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/ftl/common/unauthorized.ftl
+END
+500.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/ftl/common/500.ftl
+END
+404.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/ftl/common/404.ftl
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo
+END
+addBasicCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/addBasicCarParts.jsp
+END
+addBasicWorkingHours.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/addBasicWorkingHours.jsp
+END
+listBasicCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/listBasicCarParts.jsp
+END
+listBasicWorkingHours.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/listBasicWorkingHours.jsp
+END
+editBasicCarParts.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/editBasicCarParts.jsp
+END
+listBasicWorkplaceType.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/listBasicWorkplaceType.jsp
+END
+editBasicWorkingHours.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/editBasicWorkingHours.jsp
+END
+listBasicCarModel.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/WEB-INF/basicInfo/listBasicCarModel.jsp
+END

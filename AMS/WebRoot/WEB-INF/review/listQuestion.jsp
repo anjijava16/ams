@@ -1,0 +1,220 @@
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path;
+%>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<title>系统管理 —回访管理</title>
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+	name="viewport" />
+<link
+	href="<%=basePath%>/js/common/bootstrap/3.3.5/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link href="<%=basePath%>/bootstrap/css/bootstrap-responsive.min.css"
+	rel="stylesheet" media="screen">
+
+<link href="<%=basePath%>/css/common/base.css" rel="stylesheet" />
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+<script src="<%=basePath%>/vendors/jquery-1.9.1.min.js"></script>
+<script src="<%=basePath%>/js/common/layer/layer.js"></script>
+<script src="<%=basePath%>/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>/js/shiro.demo.js"></script>
+<script src="<%=basePath%>/assets/bootstrap3-validation.js"></script>
+</head>
+<body data-target="#one" data-spy="scroll">
+	<jsp:include page="../views/common/head.jsp" flush="true"></jsp:include>
+	<div class="container"
+		style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
+		<div class="row">
+		<jsp:include page="../customer/menu.jsp" flush="true"></jsp:include>
+			<div class="col-md-10">
+				<h2>回访问题列表</h2>
+				<hr>
+				<form method="post" action="/AMS/review/listQuestion" id="formId" class="form-inline">
+					<div clss="well">
+						<div class="form-group">
+							<input type="text" class="form-control" style="width: 300px;"
+								value="${findContent}" name="findContent" id="findContent"
+								placeholder="输入模板名">
+						</div>
+						<span class="">
+							<button type="submit" class="btn btn-primary">查询</button>
+							<a class="btn btn-success" onclick="$('#addAsk').modal();">新增模版</a>
+							<a class="btn btn-success" onclick="$('#addQuestion').modal();">新增问题</a>
+						</span>
+					</div>
+					<hr>
+					<table class="table table-striped table-bordered">
+						<tr>
+							<th>模板名称</th>
+							<th>问题编号</th>
+							<th>问题内容</th>
+							<th>操作</th>
+						</tr>
+						<c:if test="${page.list!=null && fn:length(page.list) > 0}">
+							<c:forEach items="${page.list}" var="it">
+								<tr>
+									<td>${it.ask_name}</td>
+									<td>${it.ques_no}</td>
+									<td>${it.ques_cont}</td>
+									<td>
+									<a href="javascript:deleteCus([${it.id}]);">删除</a>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${page.list==null || fn:length(page.list) < 1}">
+							<tr>
+								<td class="text-center danger" colspan="5">没有找到相关信息</td>
+							</tr>
+						</c:if>
+					</table>
+					<c:if test="${page.list!=null && fn:length(page.list) > 0}">
+						<div class="pagination pull-right">${page.pageHtml}</div>
+					</c:if>
+				</form>
+			</div>
+		</div>
+	</div>
+	<%--Add弹框--%>
+	<div class="modal fade bs-example-modal-sm" id="addAsk"
+		tabindex="-1" role="dialog" aria-labelledby="addItemLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addStationsLabel">新增回访模板</h4>
+				</div>
+				<div class="modal-header">
+				<form id="askFm">
+					<div class="form-group">
+						<label class="control-label">模板名称</label>
+						<div>
+							<input type="text" id="ask_name" name="ask_name" class="form-control" placeholder="请填写模板名称" check-type="required"/> 
+						</div>
+					</div>
+					</form>
+				</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" id="askBtn" onclick="return addAsk();" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%----/弹框--%>
+	<%--Add弹框--%>
+	<div class="modal fade bs-example-modal-sm" id="addQuestion"
+		tabindex="-1" role="dialog" aria-labelledby="addItemLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addStationsLabel">新增回访问题</h4>
+				</div>
+				<div class="modal-header">
+				<form id="questionFm">
+					<div class="form-group">
+						<label class="control-label">所属模板</label>
+						<div>
+							<select class="form-control" name="ask_id" id="ask_id">
+									<option value="">请选择...</option>
+									<c:forEach items="${askList }" var="it">
+										<option value="${it.id }" >${it.ask_name}</option>
+									</c:forEach>
+								</select>
+						</div>
+					</div>
+					<div>
+						<label class="control-label">问题编号</label>
+						<div>
+							<input class="form-control" name="ques_no" type="number" />
+						</div>
+					</div>
+					<div>
+						<label class="control-label">问题内容</label>
+						<div>
+							<textarea name="ques_cont" class="form-control" placeholder="请输入问题内容"></textarea>
+						</div>
+					</div>
+					</form>
+				</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" onclick="addQuestion();" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%----/弹框--%>
+	<script>
+        function deleteCus(id){
+			var index = layer.confirm("确定要删除这个问题？",function(){
+			var load = layer.load();
+			location.href="<%=basePath %>/review/deleteQuestion?id="+id;
+			});
+        }
+        //插入工单项目
+		function addAsk(){
+			var ask_name = $('#ask_name').val();
+			if($.trim(ask_name) == ''){
+				alert('模版名称不能为空！');
+				return false;
+			} else {
+				var load = layer.load();
+				$.ajax({  
+				   type: "POST",  
+				   url: "/AMS/review/insertAsk",  
+				   data: $("#askFm").serializeArray(),  
+				   dataType: 'json',  
+				   success: function(rst){
+					   layer.close(load);
+					   if(rst.status == 200){
+						   location.reload();
+					   } else {
+							layer.msg(rst.message);
+						}
+				   }  
+				});
+			}
+		}
+        //插入工单项目
+		function addQuestion(){
+			var load = layer.load();
+			$.ajax({  
+			   type: "POST",  
+			   url: "/AMS/review/insertQuestion",  
+			   data: $("#questionFm").serializeArray(),  
+			   dataType: 'json',  
+			   success: function(rst){
+				   layer.close(load);
+				   if(rst.status == 200){
+					   location.reload();
+				   } else {
+						layer.msg(rst.message);
+					}
+			   }  
+			});
+		}
+        </script>
+</body>
+</html>

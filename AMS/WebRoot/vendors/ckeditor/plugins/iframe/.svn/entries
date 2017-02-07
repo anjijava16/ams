@@ -1,0 +1,34 @@
+10
+
+dir
+17949
+https://192.168.206.157:8443/svn/IIC_TechCode/AMS/trunk/WebRoot/vendors/ckeditor/plugins/iframe
+https://192.168.206.157:8443/svn/IIC_TechCode
+
+
+
+2016-09-20T01:38:46.453125Z
+16236
+liupengfei
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+edf7ce25-f394-6f45-8323-b124f1427ca5
+
+dialogs
+dir
+
+images
+dir
+

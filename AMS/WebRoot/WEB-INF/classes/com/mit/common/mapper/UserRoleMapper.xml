@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.UserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.UserRole" >
+    <result column="userid" property="uid" jdbcType="BIGINT" />
+    <result column="rid" property="rid" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.mit.common.model.UserRole" >
+    insert into t_user_role (userid, rid)
+    values (#{uid,jdbcType=BIGINT}, #{rid,jdbcType=BIGINT})
+  </insert>
+   <!-- 根据用户ID删除-->
+  <delete id="deleteByUserId">
+  	delete from t_user_role where userid =  #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteRoleByUserIds">
+  	delete from t_user_role where userid in(${userIds})
+  </delete>
+  <!-- 根据用户roleId查询用户ID -->
+  <select id="findUserIdByRoleId" resultType="long">
+  	select userid from t_user_role where rid =  #{id,jdbcType=BIGINT}
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.mit.common.model.UserRole" >
+    insert into t_user_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        userid,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

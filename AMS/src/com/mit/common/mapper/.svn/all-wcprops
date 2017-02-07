@@ -1,0 +1,155 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper
+END
+DictMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/DictMapper.xml
+END
+RoleMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/RoleMapper.xml
+END
+ReviewMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/ReviewMapper.xml
+END
+ProfessionMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/ProfessionMapper.xml
+END
+SWorkplaceTypeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/SWorkplaceTypeMapper.xml
+END
+CustomerMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/CustomerMapper.xml
+END
+WorkingHoursMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/WorkingHoursMapper.xml
+END
+SCarPartsMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/SCarPartsMapper.xml
+END
+StationsMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/StationsMapper.xml
+END
+UserRoleMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/UserRoleMapper.xml
+END
+StatisticsMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/StatisticsMapper.xml
+END
+CenterInfoMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/CenterInfoMapper.xml
+END
+RolePermissionMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/RolePermissionMapper.xml
+END
+SCarModelMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/SCarModelMapper.xml
+END
+ViewEquipmentMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/ViewEquipmentMapper.xml
+END
+UserMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/UserMapper.xml
+END
+CarPartsMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/CarPartsMapper.xml
+END
+OrderMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/OrderMapper.xml
+END
+EmployeeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/EmployeeMapper.xml
+END
+PermissionMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/PermissionMapper.xml
+END
+WorkplaceTypeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/WorkplaceTypeMapper.xml
+END
+SWorkingHoursMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/SWorkingHoursMapper.xml
+END
+DepartmentMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/DepartmentMapper.xml
+END
+StationMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/StationMapper.xml
+END
+CarModelMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/mapper/CarModelMapper.xml
+END

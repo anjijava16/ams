@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.StatisticsMapper">
+	<sql id="OracleDialectPrefix">
+		<if test="firstRow != null">
+			select * from ( select row_.*, rownum rownum_ from (
+		</if>
+	</sql>
+	<sql id="OracleDialectSuffix">
+		<if test="firstRow != null">
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+		</if>
+	</sql>
+
+	<sql id="where_order">
+		<where>
+			o.del_flag = 0 and o.centerid = #{centerid}
+			<if test="cus_name != null and cus_name !='' ">
+				and c.cus_name = #{cus_name}
+			</if>
+			<if test="car_plates != null and car_plates !='' ">
+				and i.car_plates = #{car_plates}
+			</if>
+			<if test="start_time != null and start_time !='' ">
+				and o.start_time <![CDATA[>=]]> #{start_time}
+			</if>
+			<if test="end_time != null and end_time !='' ">
+				and o.start_time <![CDATA[<=]]> #{end_time}
+			</if>
+		</where>
+	</sql>
+	<select id="findOrderStatistics" parameterType="map"
+		resultType="com.mit.order.bo.Order">
+		select sum(o.hour_total) as hour_total, sum(o.parts_total) as parts_total,
+		sum(o.add_total) as add_total, sum(o.dis_total) as dis_total, sum(o.total_price) as total_price
+		from t_order o
+		left join t_customer c on o.cus_id = c.id
+		left join t_car_info i on o.car_id = i.id
+		<include refid="where_order" />
+		GROUP BY o.centerid
+	</select>
+	
+	<sql id="where_parts">
+		<where>
+			o.del_flag = 0 and p.del_flag = 0 and o.centerid = #{centerid}
+			<if test="start_time != null and start_time !='' ">
+				and o.start_time <![CDATA[>=]]> #{start_time}
+			</if>
+			<if test="end_time != null and end_time !='' ">
+				and o.start_time <![CDATA[<=]]> #{end_time}
+			</if>
+		</where>
+	</sql>
+	<select id="findPartsStatistics" parameterType="map"
+		resultType="com.mit.order.bo.OrderParts">
+		select sum(num) as num, sum(total) as price, parts_name
+		from t_order_parts p
+		left join t_order o on p.order_id = o.id
+		<include refid="where_parts" />
+		GROUP BY parts_name
+	</select>
+	
+	<sql id="where_emp">
+		<where>
+			rep_emp_id like '%,'||#{emp_id}||',%'
+			and start_time is not null and end_time is not null
+			<if test="start_time != null and start_time !='' ">
+				and end_time <![CDATA[>=]]> #{start_time}
+			</if>
+			<if test="end_time != null and end_time !='' ">
+				and end_time <![CDATA[<=]]> #{end_time}
+			</if>
+		</where>
+	</sql>
+	<select id="getEmpWorkHour" resultType="com.mit.order.bo.OrderItem">
+		select start_time, end_time from t_order_item 
+		<include refid="where_emp" />
+	</select>
+</mapper>

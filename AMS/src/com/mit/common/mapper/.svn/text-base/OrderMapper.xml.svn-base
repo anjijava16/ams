@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mit.common.dao.OrderMapper">
+	<sql id="OracleDialectPrefix">
+		<if test="firstRow != null">
+			select * from ( select row_.*, rownum rownum_ from (
+		</if>
+	</sql>
+	<sql id="OracleDialectSuffix">
+		<if test="firstRow != null">
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+		</if>
+	</sql>
+	<sql id="where_all">
+		<where>
+			o.DEL_FLAG = 0 and c.DEL_FLAG = 0 and e.STATUS = 1 and i.DEL_FLAG = 0
+			and o.centerid = #{centerid}
+			<if test="findContent != null and findContent !='' ">
+				and (c.cus_name like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				i.car_plates like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%' or
+				e.e_name like
+				'%'||#{findContent,jdbcType=VARCHAR}||'%'
+				)
+			</if>
+			<if test="order_status != null and order_status !='' ">
+				and o.order_status = #{order_status}
+			</if>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, CUS_ID, CAR_NUM, ORDER_STATUS, EMP_ID, START_TIME,
+		PRE_END_TIME, END_TIME, MILEAGES, REP_DESC, HOUR_TOTAL, PARTS_TOTAL,
+		ADD_TOTAL, DIS_TOTAL, TOTAL_PRICE, INSURE_NUM, BAK, DEL_FLAG, CAR_ID
+	</sql>
+	<select id="findAll" resultType="com.mit.order.bo.Order">
+		<include refid="OracleDialectPrefix" />
+		select c.cus_name,e.e_name,o.id,o.order_status,
+		o.start_time,o.total_price,i.car_plates,o.car_id,o.cus_id
+		from T_ORDER o
+		left join T_CUSTOMER c on o.cus_id = c.id
+		left join T_EMPLOYEE e on o.emp_id = e.id
+		left join T_CAR_INFO i on o.car_id = i.id
+		<include refid="where_all" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findCount" resultType="java.lang.Integer">
+		select count(o.id) from T_ORDER o
+		left join T_CUSTOMER c on o.cus_id = c.id
+		left join T_EMPLOYEE e on o.emp_id = e.id
+		left join T_CAR_INFO i on o.car_id = i.id
+		<include refid="where_all" />
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.Order">
+		select
+		<include refid="Base_Column_List" />
+		from T_ORDER
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertSelective" parameterType="com.mit.order.bo.Order">
+		insert into T_ORDER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="car_num != null and car_num != ''">
+				car_num,
+			</if>
+			<if test="order_status != null and order_status != ''">
+				order_status,
+			</if>
+			<if test="emp_id != null and emp_id != ''">
+				emp_id,
+			</if>
+			<if test="start_time != null and start_time != ''">
+				start_time,
+			</if>
+			<if test="pre_end_time != null and pre_end_time != ''">
+				pre_end_time,
+			</if>
+			<if test="end_time != null and end_time != ''">
+				end_time,
+			</if>
+			<if test="mileages != null and mileages != ''">
+				mileages,
+			</if>
+			<if test="rep_desc != null and rep_desc != ''">
+				rep_desc,
+			</if>
+			<if test="hour_total != null and hour_total != ''">
+				hour_total,
+			</if>
+			<if test="parts_total != null and parts_total != ''">
+				parts_total,
+			</if>
+			<if test="add_total != null and add_total != ''">
+				add_total,
+			</if>
+			<if test="dis_total != null and dis_total != ''">
+				dis_total,
+			</if>
+			<if test="total_price != null and total_price != ''">
+				total_price,
+			</if>
+			<if test="insure_num != null and insure_num != ''">
+				insure_num,
+			</if>
+			<if test="bak != null and bak != ''">
+				bak,
+			</if>
+			<if test="del_flag != null and del_flag != ''">
+				del_flag,
+			</if>
+			<if test="cus_id != null and cus_id != ''">
+				cus_id,
+			</if>
+			<if test="car_id != null and car_id != ''">
+				car_id,
+			</if>
+			<if test="centerid != null and centerid != ''">
+				centerid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="car_num != null and car_num != ''">
+				#{car_num,jdbcType=VARCHAR},
+			</if>
+			<if test="order_status != null and order_status != ''">
+				#{order_status,jdbcType=VARCHAR},
+			</if>
+			<if test="emp_id != null and emp_id != ''">
+				#{emp_id,jdbcType=VARCHAR},
+			</if>
+			<if test="start_time != null and start_time != ''">
+				#{start_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pre_end_time != null and pre_end_time != ''">
+				#{pre_end_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="end_time != null and end_time != ''">
+				#{end_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mileages != null and mileages != ''">
+				#{mileages,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_desc != null and rep_desc != ''">
+				#{rep_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="hour_total != null and hour_total != ''">
+				#{hour_total,jdbcType=FLOAT},
+			</if>
+			<if test="parts_total != null and parts_total != ''">
+				#{parts_total,jdbcType=FLOAT},
+			</if>
+			<if test="add_total != null and add_total != ''">
+				#{add_total,jdbcType=FLOAT},
+			</if>
+			<if test="dis_total != null and dis_total != ''">
+				#{dis_total,jdbcType=FLOAT},
+			</if>
+			<if test="total_price != null and total_price != ''">
+				#{total_price,jdbcType=FLOAT},
+			</if>
+			<if test="insure_num != null and insure_num != ''">
+				#{insure_num,jdbcType=VARCHAR},
+			</if>
+			<if test="bak != null and bak != ''">
+				#{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null and del_flag != ''">
+				#{del_flag,jdbcType=CHAR},
+			</if>
+			<if test="cus_id != null and cus_id != ''">
+				#{cus_id,jdbcType=VARCHAR},
+			</if>
+			<if test="car_id != null and car_id != ''">
+				#{car_id,jdbcType=VARCHAR},
+			</if>
+			<if test="centerid != null and centerid != ''">
+				#{centerid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateBySelective" parameterType="map">
+		update T_ORDER
+		<set>
+			<if test="car_num != null">
+				car_num = #{car_num,jdbcType=VARCHAR},
+			</if>
+			<if test="order_status != null">
+				order_status = #{order_status,jdbcType=VARCHAR},
+			</if>
+			<if test="emp_id != null">
+				emp_id = #{emp_id,jdbcType=VARCHAR},
+			</if>
+			<if test="start_time != null">
+				start_time = #{start_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pre_end_time != null">
+				pre_end_time = #{pre_end_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="end_time != null">
+				end_time = #{end_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mileages != null">
+				mileages = #{mileages,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_desc != null">
+				rep_desc = #{rep_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="hour_total != null">
+				hour_total = #{hour_total,jdbcType=FLOAT},
+			</if>
+			<if test="parts_total != null">
+				parts_total = #{parts_total,jdbcType=FLOAT},
+			</if>
+			<if test="add_total != null">
+				add_total = #{add_total,jdbcType=DECIMAL},
+			</if>
+			<if test="dis_total != null">
+				dis_total = #{dis_total,jdbcType=FLOAT},
+			</if>
+			<if test="total_price != null">
+				total_price = #{total_price,jdbcType=FLOAT},
+			</if>
+			<if test="insure_num != null">
+				insure_num = #{insure_num,jdbcType=FLOAT},
+			</if>
+			<if test="bak != null">
+				bak = #{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				del_flag = #{del_flag,jdbcType=VARCHAR},
+			</if>
+			<if test="cus_id != null">
+				cus_id = #{cus_id,jdbcType=VARCHAR},
+			</if>
+			<if test="car_id != null">
+				car_id = #{car_id,jdbcType=VARCHAR},
+			</if>
+			<if test="centerid != null">
+				centerid = #{centerid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="updateOrderPrice" parameterType="com.mit.order.bo.Order">
+		update T_ORDER
+		<set>
+			<if test="hour_total != null">
+				hour_total = hour_total + #{hour_total,jdbcType=FLOAT},
+			</if>
+			<if test="parts_total != null">
+				parts_total = parts_total + #{parts_total,jdbcType=FLOAT},
+			</if>
+			<if test="add_total != null">
+				add_total = add_total + #{add_total,jdbcType=DECIMAL},
+			</if>
+			<if test="dis_total != null">
+				dis_total = dis_total + #{dis_total,jdbcType=FLOAT},
+			</if>
+			<if test="total_price != null">
+				total_price = total_price + #{total_price,jdbcType=FLOAT},
+			</if>
+			<if test="order_status != null">
+				order_status = 1
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- OrderItem -->
+	<sql id="where_all_item">
+		<where>
+			del_flag = 0 and order_id = #{order_id}
+		</where>
+	</sql>
+	<sql id="Base_Item_List">
+		ID, ORDER_ID, REP_ITEM_TYPE, REP_TYPE, HOUR_NUM, HOUR_DESC,
+		WORK_HOUR, ADD_HOUR, HOUR_PRICE, DISCOUNT, HOUR_TOTAL, SEND_HOUR,
+		REP_GROUP, REP_STATION, BAK, DEL_FLAG, PRE_START_TIME, PRE_END_TIME,
+		START_TIME, END_TIME
+	</sql>
+	<select id="findAllOrderItem" resultType="com.mit.order.bo.OrderItem">
+		<include refid="OracleDialectPrefix" />
+		select
+		<include refid="Base_Item_List" />
+		from T_ORDER_ITEM
+		<include refid="where_all_item" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findOrderItemCount" resultType="java.lang.Integer">
+		select count(id) from T_ORDER_ITEM
+		<include refid="where_all_item" />
+	</select>
+	<select id="selectOrderItem" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.OrderItem">
+		select
+		<include refid="Base_Item_List" />
+		from T_ORDER_ITEM
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="findOrderItemByOrderId" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.OrderItem">
+		select
+		<include refid="Base_Item_List" />
+		from T_ORDER_ITEM
+		where ORDER_ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertOrderItem" parameterType="com.mit.order.bo.OrderItem">
+		insert into T_ORDER_ITEM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="order_id != null">
+				order_id,
+			</if>
+			<if test="rep_item_type != null">
+				rep_item_type,
+			</if>
+			<if test="rep_type != null">
+				rep_type,
+			</if>
+			<if test="hour_num != null">
+				hour_num,
+			</if>
+			<if test="hour_desc != null">
+				hour_desc,
+			</if>
+			<if test="work_hour != null">
+				work_hour,
+			</if>
+			<if test="add_hour != null">
+				add_hour,
+			</if>
+			<if test="hour_price != null">
+				hour_price,
+			</if>
+			<if test="discount != null">
+				discount,
+			</if>
+			<if test="hour_total != null">
+				hour_total,
+			</if>
+			<if test="send_hour != null">
+				send_hour,
+			</if>
+			<if test="rep_group != null">
+				rep_group,
+			</if>
+			<if test="rep_station != null">
+				rep_station,
+			</if>
+			<if test="bak != null">
+				bak,
+			</if>
+			<if test="del_flag != null">
+				del_flag,
+			</if>
+			<if test="centerid != null">
+				centerid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="order_id != null">
+				#{order_id,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_item_type != null">
+				#{rep_item_type,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_type != null">
+				#{rep_type,jdbcType=VARCHAR},
+			</if>
+			<if test="hour_num != null">
+				#{hour_num,jdbcType=TIMESTAMP},
+			</if>
+			<if test="hour_desc != null">
+				#{hour_desc,jdbcType=TIMESTAMP},
+			</if>
+			<if test="work_hour != null">
+				#{work_hour,jdbcType=TIMESTAMP},
+			</if>
+			<if test="add_hour != null">
+				#{add_hour,jdbcType=VARCHAR},
+			</if>
+			<if test="hour_price != null">
+				#{hour_price,jdbcType=VARCHAR},
+			</if>
+			<if test="discount != null">
+				#{discount,jdbcType=FLOAT},
+			</if>
+			<if test="hour_total != null">
+				#{hour_total,jdbcType=FLOAT},
+			</if>
+			<if test="send_hour != null">
+				#{send_hour,jdbcType=FLOAT},
+			</if>
+			<if test="rep_group != null">
+				#{rep_group,jdbcType=FLOAT},
+			</if>
+			<if test="rep_station != null">
+				#{rep_station,jdbcType=FLOAT},
+			</if>
+			<if test="bak != null">
+				#{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				#{del_flag,jdbcType=CHAR},
+			</if>
+			<if test="centerid != null">
+				#{centerid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateOrderItem" parameterType="map">
+		update T_ORDER_ITEM
+		<set>
+			<if test="order_id != null">
+				order_id = #{order_id,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_item_type != null">
+				rep_item_type = #{rep_item_type,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_type != null">
+				rep_type = #{rep_type,jdbcType=VARCHAR},
+			</if>
+			<if test="hour_num != null">
+				hour_num = #{hour_num,jdbcType=FLOAT},
+			</if>
+			<if test="hour_desc != null">
+				hour_desc = #{hour_desc,jdbcType=FLOAT},
+			</if>
+			<if test="work_hour != null">
+				work_hour = #{work_hour,jdbcType=FLOAT},
+			</if>
+			<if test="add_hour != null">
+				add_hour = #{add_hour,jdbcType=FLOAT},
+			</if>
+			<if test="hour_price != null">
+				hour_price = #{hour_price,jdbcType=FLOAT},
+			</if>
+			<if test="discount != null">
+				discount = #{discount,jdbcType=FLOAT},
+			</if>
+			<if test="hour_total != null">
+				hour_total = #{hour_total,jdbcType=FLOAT},
+			</if>
+			<if test="send_hour != null">
+				send_hour = #{send_hour,jdbcType=FLOAT},
+			</if>
+			<if test="rep_group != null">
+				rep_group = #{rep_group,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_station != null">
+				rep_station = #{rep_station,jdbcType=VARCHAR},
+			</if>
+			<if test="bak != null">
+				bak = #{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				del_flag = #{del_flag,jdbcType=VARCHAR},
+			</if>
+			<if test="pre_start_time != null">
+				pre_start_time = #{pre_start_time,jdbcType=DATE},
+			</if>
+			<if test="pre_end_time != null">
+				pre_end_time = #{pre_end_time,jdbcType=DATE},
+			</if>
+			<if test="start_time != null">
+				start_time = #{start_time,jdbcType=DATE},
+			</if>
+			<if test="end_time != null">
+				end_time = #{end_time,jdbcType=DATE},
+			</if>
+			<if test="rep_emp_id != null">
+				rep_emp_id = #{rep_emp_id,jdbcType=VARCHAR},
+			</if>
+			<if test="rep_emp_name != null">
+				rep_emp_name = #{rep_emp_name,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- OrderParts -->
+	<sql id="where_all_Parts">
+		<where>
+			del_flag = 0 and order_id = #{order_id}
+		</where>
+	</sql>
+	<sql id="Base_Parts_List">
+		ID, ORDER_ID, PARTS_NO, PARTS_NAME, NUM, COMPANY,
+		PRICE, DISCOUNT, TOTAL, BAK, DEL_FLAG
+	</sql>
+	<select id="findAllOrderParts" resultType="com.mit.order.bo.OrderParts">
+		<include refid="OracleDialectPrefix" />
+		select
+		<include refid="Base_Parts_List" />
+		from T_ORDER_PARTS
+		<include refid="where_all_Parts" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findOrderPartsCount" resultType="java.lang.Integer">
+		select count(id) from T_ORDER_PARTS
+		<include refid="where_all_Parts" />
+	</select>
+	<select id="selectOrderParts" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.OrderParts">
+		select
+		<include refid="Base_Parts_List" />
+		from T_ORDER_PARTS
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertOrderParts" parameterType="com.mit.order.bo.OrderParts">
+		insert into T_ORDER_PARTS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="order_id != null">
+				order_id,
+			</if>
+			<if test="parts_no != null">
+				parts_no,
+			</if>
+			<if test="parts_name != null">
+				parts_name,
+			</if>
+			<if test="num != null">
+				num,
+			</if>
+			<if test="company != null">
+				company,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="discount != null">
+				discount,
+			</if>
+			<if test="total != null">
+				total,
+			</if>
+			<if test="bak != null">
+				bak,
+			</if>
+			<if test="del_flag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="order_id != null">
+				#{order_id,jdbcType=VARCHAR},
+			</if>
+			<if test="parts_no != null">
+				#{parts_no,jdbcType=VARCHAR},
+			</if>
+			<if test="parts_name != null">
+				#{parts_name,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=FLOAT},
+			</if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=FLOAT},
+			</if>
+			<if test="discount != null">
+				#{discount,jdbcType=FLOAT},
+			</if>
+			<if test="total != null">
+				#{total,jdbcType=FLOAT},
+			</if>
+			<if test="bak != null">
+				#{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				#{del_flag,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateOrderParts" parameterType="com.mit.order.bo.OrderParts">
+		update T_ORDER_PARTS
+		<set>
+			<if test="order_id != null">
+				order_id = #{order_id,jdbcType=VARCHAR},
+			</if>
+			<if test="parts_no != null">
+				parts_no = #{parts_no,jdbcType=VARCHAR},
+			</if>
+			<if test="parts_name != null">
+				parts_name = #{parts_name,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				num = #{num,jdbcType=FLOAT},
+			</if>
+			<if test="company != null">
+				company = #{company,jdbcType=FLOAT},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=FLOAT},
+			</if>
+			<if test="discount != null">
+				discount = #{discount,jdbcType=FLOAT},
+			</if>
+			<if test="total != null">
+				total = #{total,jdbcType=FLOAT},
+			</if>
+			<if test="bak != null">
+				bak = #{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				del_flag = #{del_flag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<!-- OrderAdd -->
+	<sql id="where_all_Add">
+		<where>
+			del_flag = 0 and order_id = #{order_id}
+		</where>
+	</sql>
+	<sql id="Base_Add_List">
+		ID, ORDER_ID, ADD_NAME, ADD_DESC, ADD_TOTAL, BAK, DEL_FLAG
+	</sql>
+	<select id="findAllOrderAdd" resultType="com.mit.order.bo.OrderAdd">
+		<include refid="OracleDialectPrefix" />
+		select
+		<include refid="Base_Add_List" />
+		from T_ORDER_ADD
+		<include refid="where_all_Add" />
+		order by id desc
+		<include refid="OracleDialectSuffix" />
+	</select>
+
+	<select id="findOrderAddCount" resultType="java.lang.Integer">
+		select count(id) from T_ORDER_ADD
+		<include refid="where_all_Parts" />
+	</select>
+	<select id="selectOrderAdd" parameterType="java.lang.String"
+		resultType="com.mit.order.bo.OrderAdd">
+		select
+		<include refid="Base_Add_List" />
+		from T_ORDER_ADD
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertOrderAdd" parameterType="com.mit.order.bo.OrderAdd">
+		insert into T_ORDER_ADD
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="order_id != null">
+				order_id,
+			</if>
+			<if test="add_name != null">
+				add_name,
+			</if>
+			<if test="add_desc != null">
+				add_desc,
+			</if>
+			<if test="add_total != null">
+				add_total,
+			</if>
+			<if test="bak != null">
+				bak,
+			</if>
+			<if test="del_flag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="order_id != null">
+				#{order_id,jdbcType=VARCHAR},
+			</if>
+			<if test="add_name != null">
+				#{add_name,jdbcType=VARCHAR},
+			</if>
+			<if test="add_desc != null">
+				#{add_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="add_total != null">
+				#{add_total,jdbcType=FLOAT},
+			</if>
+			<if test="bak != null">
+				#{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				#{del_flag,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateOrderAdd" parameterType="com.mit.order.bo.OrderAdd">
+		update T_ORDER_ADD
+		<set>
+			<if test="order_id != null">
+				order_id = #{order_id,jdbcType=VARCHAR},
+			</if>
+			<if test="add_name != null">
+				add_name = #{add_name,jdbcType=VARCHAR},
+			</if>
+			<if test="add_desc != null">
+				add_desc = #{add_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="add_total != null">
+				add_total = #{add_total,jdbcType=FLOAT},
+			</if>
+			<if test="bak != null">
+				bak = #{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="del_flag != null">
+				del_flag = #{del_flag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="getEmpByWpId" resultType="com.mit.common.model.EmployeeWplace">
+		select * from t_employee_wplace 
+		where w_id = #{wpId} and status = 1
+	</select>
+	
+	<select id="getUploadInfos" parameterType="map" resultType="com.mit.order.bo.UploadInfo">
+		select * from t_ams_upload_info where flag = 'info' and read_flag = 0
+		and lc_serial = #{serial} and rownum <![CDATA[<=]]> 5
+	</select>
+	
+	<update id="updateUploadInfo" parameterType="map">
+		update t_ams_upload_info set read_flag = 1 where info_id = #{infoId}
+	</update>
+	
+</mapper>

@@ -1,0 +1,548 @@
+/**    
+* @Title: CustomerController.java  
+* @Package com.mit.customer.controller  
+* @Description: TODO(用一句话描述该文件做什么)  
+* @author 刘鹏飞
+* @date 2016-9-23 下午1:52:10  
+* @version V1.0    
+*/
+package com.mit.customer.controller;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.mit.carModel.service.CarModelService;
+import com.mit.common.controller.BaseController;
+import com.mit.common.model.CarModel;
+import com.mit.common.utils.LoggerUtils;
+import com.mit.core.mybatis.page.Pagination;
+import com.mit.core.shiro.token.manager.TokenManager;
+import com.mit.core.statics.Constant;
+import com.mit.customer.bo.CarInfo;
+import com.mit.customer.bo.Customer;
+import com.mit.customer.bo.Linkman;
+import com.mit.customer.service.CustomerService;
+import com.mit.dict.bo.DictData;
+import com.mit.dict.service.DictService;
+import com.mit.information.service.SCarModelService;
+
+/**  
+ * @ClassName: CustomerController  
+ * @Description: TODO(这里用一句话描述这个类的作用)  
+ * @author 刘鹏飞
+ * @date 2016-9-23 下午1:52:10  
+ *    
+ */
+@Controller
+@Scope(value="prototype")
+@RequestMapping("customer")
+public class CustomerController extends BaseController {
+
+	@Autowired
+	CustomerService customerService;
+	@Autowired
+	SCarModelService carModelService;
+	@Autowired
+	DictService dictService;
+	@Autowired
+	CarModelService acarModelService;
+	
+	/**
+	 * 客户列表
+	 * @return
+	 */
+	@RequestMapping(value="/list")
+	public ModelAndView list(ModelMap map,Integer pageNo,String findContent){
+		map.put("findContent", findContent);
+		map.put("centerid", findCenterId == null ? 0 : findCenterId);
+		Pagination<Customer> page = customerService.findByPage(map,pageNo,pageSize);
+		map.put("page", page);
+		ModelAndView mv = new ModelAndView("customer/list");
+		TokenManager.setVal2Session("menuFlag", "customer");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 车辆列表
+	 * @return
+	 */
+	@RequestMapping(value="/listCar")
+	public ModelAndView listCar(ModelMap map,Integer pageNo,String findContent){
+		map.put("findContent", findContent);
+		map.put("centerid", findCenterId == null ? 0 : findCenterId);
+		Pagination<CarInfo> page = customerService.findCarsByPage(map,pageNo,pageSize);
+		map.put("page", page);
+		ModelAndView mv = new ModelAndView("customer/listCar");
+		TokenManager.setVal2Session("menuFlag", "car");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 联系人列表
+	 * @return
+	 */
+	@RequestMapping(value="/listLinkman")
+	public ModelAndView listLinkman(ModelMap map,Integer pageNo,String findContent){
+		map.put("findContent", findContent);
+		map.put("centerid", findCenterId == null ? 0 : findCenterId);
+		Pagination<Linkman> page = customerService.findLinkmenByPage(map,pageNo,pageSize);
+		map.put("page", page);
+		ModelAndView mv = new ModelAndView("customer/listLinkman");
+		TokenManager.setVal2Session("menuFlag", "link");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 客户add跳转
+	 * @return
+	 */
+	@RequestMapping(value="/add")
+	public ModelAndView add(){
+		ModelAndView mv = new ModelAndView("customer/add");
+		List<DictData> idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+		if(null != idTypes && idTypes.size() > 0){
+			mv.addObject("idTypes", idTypes);
+		} else {
+			setDictData();
+			idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+			mv.addObject("idTypes", idTypes);
+		}
+		List<DictData> nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+		if(null != nations && nations.size() > 0){
+			mv.addObject("nations", nations);
+		} else {
+			setDictData();
+			nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+			mv.addObject("nations", nations);
+		}
+		TokenManager.setVal2Session("menuFlag", "customer");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 车辆add跳转
+	 * @return
+	 */
+	@RequestMapping(value="/addCar")
+	public ModelAndView addCar(){
+		ModelAndView mv = new ModelAndView("customer/addCar");
+		List<DictData> outerColor = (List<DictData>) TokenManager.getVal2Session(Constant.OUTER_COLOR);
+		if(null != outerColor && outerColor.size() > 0){
+			mv.addObject("outerColor", outerColor);
+		} else {
+			setDictData();
+			outerColor = (List<DictData>) TokenManager.getVal2Session(Constant.OUTER_COLOR);
+			mv.addObject("outerColor", outerColor);
+		}
+		List<DictData> innerColor = (List<DictData>) TokenManager.getVal2Session(Constant.INNER_COLOR);
+		if(null != innerColor && innerColor.size() > 0){
+			mv.addObject("innerColor", innerColor);
+		} else {
+			setDictData();
+			innerColor = (List<DictData>) TokenManager.getVal2Session(Constant.INNER_COLOR);
+			mv.addObject("innerColor", innerColor);
+		}
+		List<DictData> useType = (List<DictData>) TokenManager.getVal2Session(Constant.USE_TYPE);
+		if(null != useType && useType.size() > 0){
+			mv.addObject("useType", useType);
+		} else {
+			setDictData();
+			useType = (List<DictData>) TokenManager.getVal2Session(Constant.USE_TYPE);
+			mv.addObject("useType", useType);
+		}
+		
+		resultMap.put("centerid", findCenterId == null ? 0 : findCenterId);
+		List<Customer> customers = customerService.findAllCustomers(resultMap);
+		mv.addObject("customers", customers);
+		resultMap.put("findCenterId", findCenterId == null ? 0 : findCenterId);
+		List<CarModel> carmodelList = carModelService.listCarModels(resultMap);
+		List<String> carBrandList = new ArrayList<String>();
+		for (CarModel carModel : carmodelList) {
+			carBrandList.add(carModel.getCarbrand());
+		}
+		HashSet<String> brandSet = new HashSet<String>(carBrandList);
+		mv.addObject("brandSet", brandSet);
+		mv.addObject("carmodelList", carmodelList);
+		TokenManager.setVal2Session("menuFlag", "car");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 联系人add跳转
+	 * @return
+	 */
+	@RequestMapping(value="/addLinkman")
+	public ModelAndView addLinkman(){
+		ModelAndView mv = new ModelAndView("customer/addLinkman");
+		List<DictData> idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+		if(null != idTypes && idTypes.size() > 0){
+			mv.addObject("idTypes", idTypes);
+		} else {
+			setDictData();
+			idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+			mv.addObject("idTypes", idTypes);
+		}
+		List<DictData> nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+		if(null != nations && nations.size() > 0){
+			mv.addObject("nations", nations);
+		} else {
+			setDictData();
+			nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+			mv.addObject("nations", nations);
+		}
+		List<DictData> relations = (List<DictData>) TokenManager.getVal2Session(Constant.RELATION);
+		if(null != relations && relations.size() > 0){
+			mv.addObject("relationTypes", relations);
+		} else {
+			setDictData();
+			relations = (List<DictData>) TokenManager.getVal2Session(Constant.RELATION);
+			mv.addObject("relationTypes", relations);
+		}
+		
+		resultMap.put("centerid", findCenterId == null ? 0 : findCenterId);
+		List<Customer> customers = customerService.findAllCustomers(resultMap);
+		mv.addObject("customers", customers);
+		TokenManager.setVal2Session("menuFlag", "link");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 客户新增/修改
+	 * @return
+	 */
+	@RequestMapping(value="/insert")
+	public ModelAndView insert(Customer customer, HttpServletRequest request){
+		Long id = (Long) getSession(request).getAttribute("adm_id");
+		if(null != id && id != 0){
+			customer.setCreator_id(id.toString());
+			customer.setCreator((String) getSession(request).getAttribute("nickName"));
+		}
+		customer.setCenterid(findCenterId == null ? "0" : findCenterId.toString());
+		if(null != customer.getId() && 0 != customer.getId()){
+			customerService.updateBySelective(customer);
+		} else {
+			customerService.insertSelective(customer);
+			Linkman linkman = new Linkman();
+			linkman.setLink_name(customer.getCus_name());
+			linkman.setLink_tel(customer.getTel());
+			customerService.insertSelectiveLinkman(linkman);
+		}
+		ModelAndView mv = new ModelAndView("redirect:/customer/list");
+		TokenManager.setVal2Session("menuFlag", "customer");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 车辆新增/修改
+	 * @return
+	 */
+	@RequestMapping(value="/insertCar")
+	public ModelAndView insertCar(CarInfo carInfo, HttpServletRequest request){
+		
+		carInfo.setCenterid(findCenterId == null ? "0" : findCenterId.toString());
+		if(null != carInfo.getId() && 0 != carInfo.getId()){
+			customerService.updateSelectiveCar(carInfo);
+		} else {
+			customerService.insertSelectiveCar(carInfo);
+		}
+		ModelAndView mv = new ModelAndView("redirect:/customer/listCar");
+		TokenManager.setVal2Session("menuFlag", "car");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 联系人新增/修改
+	 * @return
+	 */
+	@RequestMapping(value="/insertLinkman")
+	public ModelAndView insertLinkman(Linkman linkman, HttpServletRequest request){
+		
+		linkman.setCenterid(findCenterId == null ? "0" : findCenterId.toString());
+		if(null != linkman.getId() && 0 != linkman.getId()){
+			customerService.updateSelectiveLinkman(linkman);
+		} else {
+			customerService.insertSelectiveLinkman(linkman);
+		}
+		ModelAndView mv = new ModelAndView("redirect:/customer/listLinkman");
+		TokenManager.setVal2Session("menuFlag", "link");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 客户详情
+	 * @return
+	 */
+	@RequestMapping(value="/detail")
+	public ModelAndView detail(Long id){
+		Customer customer = customerService.selectByPrimaryKey(id);
+		ModelAndView mv = new ModelAndView("customer/add");
+		List<DictData> idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+		if(null != idTypes && idTypes.size() > 0){
+			mv.addObject("idTypes", idTypes);
+		} else {
+			setDictData();
+			idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+			mv.addObject("idTypes", idTypes);
+		}
+		List<DictData> nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+		if(null != nations && nations.size() > 0){
+			mv.addObject("nations", nations);
+		} else {
+			setDictData();
+			nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+			mv.addObject("nations", nations);
+		}
+		mv.addObject("customer", customer);
+		TokenManager.setVal2Session("menuFlag", "customer");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 车辆详情
+	 * @return
+	 */
+	@RequestMapping(value="/detailCar")
+	public ModelAndView detailCar(Long id){
+		CarInfo car = customerService.selectCarByPrimaryKey(id);
+		ModelAndView mv = new ModelAndView("customer/addCar");
+		List<DictData> outerColor = (List<DictData>) TokenManager.getVal2Session(Constant.OUTER_COLOR);
+		if(null != outerColor && outerColor.size() > 0){
+			mv.addObject("outerColor", outerColor);
+		} else {
+			setDictData();
+			outerColor = (List<DictData>) TokenManager.getVal2Session(Constant.OUTER_COLOR);
+			mv.addObject("outerColor", outerColor);
+		}
+		List<DictData> innerColor = (List<DictData>) TokenManager.getVal2Session(Constant.INNER_COLOR);
+		if(null != innerColor && innerColor.size() > 0){
+			mv.addObject("innerColor", innerColor);
+		} else {
+			setDictData();
+			innerColor = (List<DictData>) TokenManager.getVal2Session(Constant.INNER_COLOR);
+			mv.addObject("innerColor", innerColor);
+		}
+		List<DictData> useType = (List<DictData>) TokenManager.getVal2Session(Constant.USE_TYPE);
+		if(null != useType && useType.size() > 0){
+			mv.addObject("useType", useType);
+		} else {
+			setDictData();
+			useType = (List<DictData>) TokenManager.getVal2Session(Constant.USE_TYPE);
+			mv.addObject("useType", useType);
+		}
+		mv.addObject("car", car);
+		
+		resultMap.put("centerid", findCenterId == null ? 0 : findCenterId);
+		List<Customer> customers = customerService.findAllCustomers(resultMap);
+		mv.addObject("customers", customers);
+		resultMap.put("findCenterId", findCenterId == null ? 0 : findCenterId);
+		List<CarModel> carmodelList = carModelService.listCarModels(resultMap);
+		List<String> carBrandList = new ArrayList<String>();
+		for (CarModel carModel : carmodelList) {
+			carBrandList.add(carModel.getCarbrand());
+		}
+		HashSet<String> brandSet = new HashSet<String>(carBrandList);
+		mv.addObject("brandSet", brandSet);
+		mv.addObject("carmodelList", carmodelList);
+		TokenManager.setVal2Session("menuFlag", "car");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 联系人详情
+	 * @return
+	 */
+	@RequestMapping(value="/detailLinkman")
+	public ModelAndView detailLinkman(Long id){
+		Linkman linkman = customerService.selectLinkmanByPrimaryKey(id);
+		ModelAndView mv = new ModelAndView("customer/addLinkman");
+		List<DictData> idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+		if(null != idTypes && idTypes.size() > 0){
+			mv.addObject("idTypes", idTypes);
+		} else {
+			setDictData();
+			idTypes = (List<DictData>) TokenManager.getVal2Session(Constant.ID_TYPE);
+			mv.addObject("idTypes", idTypes);
+		}
+		List<DictData> nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+		if(null != nations && nations.size() > 0){
+			mv.addObject("nations", nations);
+		} else {
+			setDictData();
+			nations = (List<DictData>) TokenManager.getVal2Session(Constant.NATION);
+			mv.addObject("nations", nations);
+		}
+		List<DictData> relations = (List<DictData>) TokenManager.getVal2Session(Constant.RELATION);
+		if(null != relations && relations.size() > 0){
+			mv.addObject("relationTypes", relations);
+		} else {
+			setDictData();
+			relations = (List<DictData>) TokenManager.getVal2Session(Constant.RELATION);
+			mv.addObject("relationTypes", relations);
+		}
+		mv.addObject("link", linkman);
+		
+		resultMap.put("centerid", findCenterId == null ? 0 : findCenterId);
+		List<Customer> customers = customerService.findAllCustomers(resultMap);
+		mv.addObject("customers", customers);
+		TokenManager.setVal2Session("menuFlag", "link");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 客户删除
+	 * @return
+	 */
+	@RequestMapping(value="/delete")
+	public ModelAndView delete(Long id){
+		Customer customer = new Customer();
+		customer.setId(id);
+		customer.setDel_flag("1");
+		customerService.updateBySelective(customer);
+		customerService.delCarByCus(id);
+		customerService.delLinkByCus(id);
+		ModelAndView mv = new ModelAndView("redirect:/customer/list");
+		TokenManager.setVal2Session("menuFlag", "customer");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 车辆删除
+	 * @return
+	 */
+	@RequestMapping(value="/deleteCar")
+	public ModelAndView deleteCar(Long id){
+		CarInfo car = new CarInfo();
+		car.setId(id);
+		car.setDel_flag("1");
+		customerService.updateSelectiveCar(car);
+		ModelAndView mv = new ModelAndView("redirect:/customer/listCar");
+		TokenManager.setVal2Session("menuFlag", "car");//菜单选中判断
+		return mv;
+	}
+	/**
+	 * 联系人删除
+	 * @return
+	 */
+	@RequestMapping(value="/deleteLinkman")
+	public ModelAndView deleteLinkman(Long id){
+		Linkman linkman = new Linkman();
+		linkman.setId(id);
+		linkman.setDel_flag("1");
+		customerService.updateSelectiveLinkman(linkman);
+		ModelAndView mv = new ModelAndView("redirect:/customer/listLinkman");
+		TokenManager.setVal2Session("menuFlag", "link");//菜单选中判断
+		return mv;
+	}
+	
+	@RequestMapping(value="/verifyTel",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> verifyTel(String tel){
+		try {
+			resultMap.put("centerid", findCenterId == null ? 0 : findCenterId);
+			resultMap.put("findContent", tel);
+			Pagination<Customer> page = customerService.findByPage(resultMap, pageNo, pageSize);
+			if(null != page && page.getList() != null && page.getList().size() > 0){
+				resultMap.put("status", 400);
+				resultMap.put("id", page.getList().get(0).getId());
+			} else {
+				resultMap.put("status", 200);
+			}
+		} catch (Exception e) {
+			resultMap.put("status", 500);
+			resultMap.put("message", "校验手机号失败，请刷新后再试！");
+			LoggerUtils.fmtError(getClass(), e, "校验手机号报错。source[%s]",tel);
+		}
+		return resultMap;
+	}
+	
+	@RequestMapping(value="/verifyCarPlates",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> verifyCarPlates(String carPlates){
+		try {
+			resultMap.put("centerid", findCenterId == null ? 0 : findCenterId);
+			resultMap.put("findContent", carPlates);
+			List<CarInfo> carInfos = customerService.findAllCars(resultMap);
+			if(carInfos != null && carInfos.size() > 0){
+				resultMap.put("status", 400);
+				resultMap.put("id", carInfos.get(0).getId());
+			} else {
+				resultMap.put("status", 200);
+			}
+		} catch (Exception e) {
+			resultMap.put("status", 500);
+			resultMap.put("message", "校验车牌号失败，请刷新后再试！");
+			LoggerUtils.fmtError(getClass(), e, "校验车牌号报错。source[%s]",carPlates);
+		}
+		return resultMap;
+	}
+	
+	/**
+	 * 
+	 * @Title: setDictData
+	 * @Description: 设置数据字典到缓存
+	 * @param 设定文件
+	 * @return void 返回类型
+	 * @throws
+	 */
+	public void setDictData() {
+		List<DictData> dictDatas = dictService.findAllData();
+		List<DictData> idType = new ArrayList<DictData>();
+		List<DictData> outerColor = new ArrayList<DictData>();
+		List<DictData> innerColor = new ArrayList<DictData>();
+		List<DictData> useType = new ArrayList<DictData>();
+		List<DictData> nation = new ArrayList<DictData>();
+		List<DictData> relation = new ArrayList<DictData>();
+		List<DictData> repairType = new ArrayList<DictData>();
+		List<DictData> repairMethod = new ArrayList<DictData>();
+		List<DictData> partsType = new ArrayList<DictData>();
+		List<CarModel> carModels = acarModelService.ListCarModel(null);
+		for (DictData dictData : dictDatas) {
+			if (Constant.ID_TYPE.equals(dictData.getDict_code())) {
+				idType.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.OUTER_COLOR.equals(dictData.getDict_code())) {
+				outerColor.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.INNER_COLOR.equals(dictData.getDict_code())) {
+				innerColor.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.USE_TYPE.equals(dictData.getDict_code())) {
+				useType.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.NATION.equals(dictData.getDict_code())) {
+				nation.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.RELATION.equals(dictData.getDict_code())) {
+				relation.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.REPAIR_TYPE.equals(dictData.getDict_code())) {
+				repairType.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.REPAIR_METHOD.equals(dictData.getDict_code())) {
+				repairMethod.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+			if (Constant.PARTS_TYPE.equals(dictData.getDict_code())) {
+				partsType.add(new DictData(dictData.getDict_code(), dictData
+						.getData_key(), dictData.getData_value()));
+			}
+		}
+		TokenManager.setVal2Session(Constant.ID_TYPE, idType);
+		TokenManager.setVal2Session(Constant.OUTER_COLOR, outerColor);
+		TokenManager.setVal2Session(Constant.INNER_COLOR, innerColor);
+		TokenManager.setVal2Session(Constant.USE_TYPE, useType);
+		TokenManager.setVal2Session(Constant.NATION, nation);
+		TokenManager.setVal2Session(Constant.RELATION, relation);
+		TokenManager.setVal2Session(Constant.REPAIR_TYPE, repairType);
+		TokenManager.setVal2Session(Constant.REPAIR_METHOD, repairMethod);
+		TokenManager.setVal2Session(Constant.CAR_MODELS, carModels);
+		TokenManager.setVal2Session(Constant.PARTS_TYPE, partsType);
+	}
+}

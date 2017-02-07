@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/errorPage
+END
+404.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/errorPage/404.html
+END
+503.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/errorPage/503.html
+END
+403.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/errorPage/403.html
+END
+500.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/WebRoot/errorPage/500.html
+END

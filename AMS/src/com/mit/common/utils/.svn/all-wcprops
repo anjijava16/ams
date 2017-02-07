@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils
+END
+StringUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/StringUtils.java
+END
+DateUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/DateUtil.java
+END
+VinuxPostMethod.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/VinuxPostMethod.java
+END
+VerifyCodeUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/VerifyCodeUtils.java
+END
+MathUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/MathUtil.java
+END
+UtilPath.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/UtilPath.java
+END
+AutoCreateServiceUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/AutoCreateServiceUtils.java
+END
+CookieUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/CookieUtil.java
+END
+SpringContextUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/SpringContextUtil.java
+END
+SerializeUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/SerializeUtil.java
+END
+LoggerUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/LoggerUtils.java
+END
+GenEntityOracle.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/IIC_TechCode/!svn/ver/17947/AMS/trunk/src/com/mit/common/utils/GenEntityOracle.java
+END

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.WorkplaceTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.WorkplaceType" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PLACE_PARENT_NAME" property="place_parent_name" jdbcType="VARCHAR" />
+    <result column="PLACE_NAME" property="place_name" jdbcType="VARCHAR" />
+   <result column="STATUS" property="status" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PLACE_PARENT_NAME, PLACE_NAME,STATUS
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+ 
+  	<if test="findContent != null and findContent !='' " >
+         and (PLACE_PARENT_NAME  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        PLACE_NAME like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+    
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_BASIC_WORKPLACE_TYPE where STATUS=1 
+    <include refid="where_all"/>
+      order by id desc
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  T_BASIC_WORKPLACE_TYPE where STATUS=1 
+  	<include refid="where_all" />
+  </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BASIC_WORKPLACE_TYPE
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_BASIC_WORKING_HOURS
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.WorkplaceType" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_BASIC_WORKPLACE_TYPE_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into T_BASIC_WORKPLACE_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="place_parent_name != null" >
+        PLACE_PARENT_NAME,
+      </if>
+      <if test="place_name != null" >
+        PLACE_NAME,
+      </if>
+      
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="place_parent_name != null" >
+        #{place_parent_name,jdbcType=VARCHAR},
+      </if>
+      <if test="place_name != null" >
+        #{place_name,jdbcType=VARCHAR},
+      </if>
+     
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.WorkplaceType" >
+    update T_BASIC_WORKPLACE_TYPE
+    <set >
+     <if test="place_parent_name != null" >
+        place_parent_name=#{place_parent_name,jdbcType=VARCHAR},
+      </if>
+      <if test="place_name != null" >
+        place_name=#{place_name,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="status != null" >
+        status=#{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateStatusById" parameterType="java.lang.Long">
+    update T_BASIC_WORKPLACE_TYPE set status='0'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

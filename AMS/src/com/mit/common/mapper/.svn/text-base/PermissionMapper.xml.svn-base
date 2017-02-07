@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mit.common.dao.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.mit.common.model.Permission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="modename" property="modename" jdbcType="VARCHAR" />
+     <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, url, name, modename,type
+  </sql>
+  
+  <sql id="OracleDialectPrefix" >
+    <if test="firstRow != null" >
+     select * from ( select row_.*, rownum rownum_ from (
+    </if>
+  </sql>
+   <sql id="OracleDialectSuffix" >
+    <if test="firstRow != null" >
+     <![CDATA[ ) row_ ) where rownum_ <= #{lastRow} and rownum_ > #{firstRow}]]>
+    </if>
+  </sql>
+  
+  <sql id="where_all">
+  	<where>
+  	<if test="findContent != null and findContent !='' " >
+         and (name  like '%'||#{findContent,jdbcType=VARCHAR}||'%'     or
+        url like '%'||#{findContent,jdbcType=VARCHAR}||'%' )  
+      </if>
+       <if test="findType != null and findType !='' " >
+	       and type='1'
+      </if>
+      </where>
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+   <include refid="OracleDialectPrefix" />
+  	 select 
+    <include refid="Base_Column_List" />
+    from t_permission 
+    <include refid="where_all"/>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="findCount" resultMap="BaseResultMap" >
+ 	 select count(id) from  t_permission
+  	<include refid="where_all" />
+  </select>
+  
+  <select id="selectPermissionById" resultType="com.mit.permission.bo.PermissionBo">
+  select p.id,pr.id roleId,p.name,p.url,nvl(pr.id,0) marker from t_permission p left join (select id,pid from (select id from t_role where id=#{id,jdbcType=BIGINT}) u left join t_role_permission rp on u.id=rp.rid) pr on pr.pid=p.id
+ <if test="type != null and type !='' " >
+        where type='1'
+      </if>
+  </select>
+  <!-- 根据用ID查询permission -->
+  <select id="findPermissionByUserId" resultType="java.lang.String">
+  		select p.url from t_permission p , t_role_permission rp, t_user_role ur 
+		where userid =#{id,jdbcType=BIGINT} and p.id = rp.pid and rp.rid = ur.rid
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert"  parameterType="com.mit.common.model.Permission" keyProperty="id">
+  <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_PERMISSION_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into t_permission (id, url, name,modename)
+    values (#{id,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{modename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.mit.common.model.Permission" >
+    <selectKey keyProperty="id" resultType="java.lang.Long"
+			order="BEFORE">
+		<![CDATA[select SEQ_PERMISSION_ID.NEXTVAL as id from dual]]>
+		</selectKey>
+    insert into t_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="modename != null" >
+        modename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=BIGINT},
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+       <if test="modename != null" >
+        #{modename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mit.common.model.Permission" >
+    update t_permission
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+       <if test="modename != null" >
+        modename = #{modename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mit.common.model.Permission" >
+    update t_permission
+    set url = #{url,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      modename = #{modename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
